@@ -68,45 +68,57 @@ const GLOBAL_AVG_ANNUAL_TONNES = 4.7;
 const PARIS_TARGET_ANNUAL_TONNES = 2.0;
 const WEEKS_PER_YEAR = 52;
 
+// Recommendation-engine assumption constants (named so the reasoning behind
+// each estimate is explicit rather than a bare multiplier in the logic below).
+const SOLAR_OFFSET_FEASIBILITY = 0.3;        // assume 30% of grid usage can realistically shift to renewables
+const FLIGHT_REDUCTION_FACTOR = 0.5;         // assume half of flights can be avoided or combined
+const ELECTRONICS_LIFESPAN_EXTENSION = 0.5;  // assume repair/extension avoids ~50% of replacement footprint
+const MEAT_SWAP_DAYS_PER_WEEK = 2;           // assume 2 days/week swapped to a lower-impact diet
+
 // ---------------------------------------------------------------------------
 // Category calculators
 // ---------------------------------------------------------------------------
+
+/**
+ * Generic category calculator: sums whitelisted activity values against
+ * their emission factors. Shared by transport, home, and shopping, which
+ * all have the same "flat map of activity -> factor" shape.
+ * @param {object} input - whitelisted weekly activity by key
+ * @param {object} factors - emission factors keyed the same way as input
+ * @returns {{total: number, breakdown: object}}
+ */
+function calculateCategory(input = {}, factors) {
+  const breakdown = {};
+  let total = 0;
+  for (const [key, value] of Object.entries(input)) {
+    const factor = factors[key];
+    if (factor === undefined) continue;
+    const kg = factor * value;
+    breakdown[key] = round2(kg);
+    total += kg;
+  }
+  return { total: round2(total), breakdown };
+}
 
 /**
  * @param {object} transport - whitelisted weekly transport activity by mode
  * @returns {{total: number, breakdown: object}}
  */
 function calculateTransport(transport = {}) {
-  const breakdown = {};
-  let total = 0;
-  for (const [key, value] of Object.entries(transport)) {
-    const factor = TRANSPORT_FACTORS[key];
-    if (factor === undefined) continue;
-    const kg = factor * value;
-    breakdown[key] = round2(kg);
-    total += kg;
-  }
-  return { total: round2(total), breakdown };
+  return calculateCategory(transport, TRANSPORT_FACTORS);
 }
 
 /**
  * @param {object} home - whitelisted weekly home-energy activity
+ * @returns {{total: number, breakdown: object}}
  */
 function calculateHome(home = {}) {
-  const breakdown = {};
-  let total = 0;
-  for (const [key, value] of Object.entries(home)) {
-    const factor = HOME_FACTORS[key];
-    if (factor === undefined) continue;
-    const kg = factor * value;
-    breakdown[key] = round2(kg);
-    total += kg;
-  }
-  return { total: round2(total), breakdown };
+  return calculateCategory(home, HOME_FACTORS);
 }
 
 /**
  * @param {object} food - { diet: string, days: number }
+ * @returns {{total: number, breakdown: object}}
  */
 function calculateFood(food = {}) {
   const diet = DIET_FACTORS[food.diet] !== undefined ? food.diet : 'omnivore';
@@ -121,18 +133,10 @@ function calculateFood(food = {}) {
 
 /**
  * @param {object} shopping - whitelisted weekly shopping/consumption activity
+ * @returns {{total: number, breakdown: object}}
  */
 function calculateShopping(shopping = {}) {
-  const breakdown = {};
-  let total = 0;
-  for (const [key, value] of Object.entries(shopping)) {
-    const factor = SHOPPING_FACTORS[key];
-    if (factor === undefined) continue;
-    const kg = factor * value;
-    breakdown[key] = round2(kg);
-    total += kg;
-  }
-  return { total: round2(total), breakdown };
+  return calculateCategory(shopping, SHOPPING_FACTORS);
 }
 
 // ---------------------------------------------------------------------------
@@ -217,7 +221,7 @@ function generateRecommendations(input = {}, footprint) {
       recs.push({
         category: 'food',
         action: 'Replace red meat with chicken or plant proteins a few times a week',
-        impact_kg_per_year: round2(dailySaving * 2 * WEEKS_PER_YEAR), // 2 swapped days/week
+        impact_kg_per_year: round2(dailySaving * MEAT_SWAP_DAYS_PER_WEEK * WEEKS_PER_YEAR),
         difficulty: 'easy',
         cost_saving: true,
       });
@@ -227,7 +231,7 @@ function generateRecommendations(input = {}, footprint) {
   if (input.home && input.home.electricity_kwh > 0 && !(input.home.solar_kwh > 0)) {
     const weeklyKwh = input.home.electricity_kwh;
     const saving = round2(
-      weeklyKwh * WEEKS_PER_YEAR * (HOME_FACTORS.electricity_kwh - HOME_FACTORS.solar_kwh) * 0.3
+      weeklyKwh * WEEKS_PER_YEAR * (HOME_FACTORS.electricity_kwh - HOME_FACTORS.solar_kwh) * SOLAR_OFFSET_FEASIBILITY
     );
     recs.push({
       category: 'home',
@@ -245,7 +249,7 @@ function generateRecommendations(input = {}, footprint) {
       impact_kg_per_year: round2(
         ((input.transport.flight_domestic || 0) + (input.transport.flight_international || 0)) *
           WEEKS_PER_YEAR *
-          0.5
+          FLIGHT_REDUCTION_FACTOR
       ),
       difficulty: 'hard',
       cost_saving: true,
@@ -260,7 +264,7 @@ function generateRecommendations(input = {}, footprint) {
         ((input.shopping.electronics_large || 0) * SHOPPING_FACTORS.electronics_large +
           (input.shopping.electronics_small || 0) * SHOPPING_FACTORS.electronics_small) *
           WEEKS_PER_YEAR *
-          0.5
+          ELECTRONICS_LIFESPAN_EXTENSION
       ),
       difficulty: 'easy',
       cost_saving: true,

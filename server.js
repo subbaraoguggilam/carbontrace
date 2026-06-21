@@ -3,9 +3,11 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const { randomUUID } = require('crypto');
 const path = require('path');
+const fs = require('fs');
 
 const {
   calculateTotalFootprint,
@@ -56,6 +58,9 @@ app.use(
   })
 );
 
+// Gzip/deflate compression for all responses (JSON API + static assets).
+app.use(compression());
+
 // Request ID for audit/log correlation, attached before any logging happens.
 app.use((req, res, next) => {
   req.requestId = randomUUID();
@@ -89,7 +94,11 @@ const calculateLimiter = rateLimit({
 // Static frontend
 // ---------------------------------------------------------------------------
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1d', etag: true }));
+
+// SPA fallback HTML is read once at startup and served from memory,
+// avoiding a disk read on every non-API GET request.
+const indexHtml = fs.readFileSync(path.join(__dirname, 'public', 'index.html'));
 
 // ---------------------------------------------------------------------------
 // API routes
@@ -100,6 +109,8 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/api/emission-factors', (req, res) => {
+  // Static reference data that never changes per-deploy; safe to cache.
+  res.set('Cache-Control', 'public, max-age=3600');
   res.json({
     success: true,
     data: {
@@ -133,6 +144,7 @@ app.post('/api/calculate', calculateLimiter, (req, res) => {
       requestId: req.requestId,
     });
   } catch (err) {
+    console.error(`[${req.requestId}] /api/calculate failed:`, err);
     res.status(500).json({
       success: false,
       error: 'Failed to calculate footprint',
@@ -163,9 +175,10 @@ app.use('/api', (req, res) => {
   res.status(404).json({ success: false, error: 'Not found' });
 });
 
-// SPA fallback: any non-API GET route serves the frontend shell.
+// SPA fallback: any non-API GET route serves the frontend shell from memory.
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.set('Content-Type', 'text/html');
+  res.send(indexHtml);
 });
 
 // Centralised error handler (e.g. malformed JSON bodies from express.json()).
