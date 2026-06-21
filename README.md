@@ -13,7 +13,7 @@ CarbonTrace helps individuals understand, track, and reduce their personal carbo
 
 ## 🚀 Live Demo
 
-**[REPLACE_WITH_YOUR_RENDER_URL]** *(add your deployed Render URL here after deploying)*
+https://carbontrace-z2zm.onrender.com/ 
 
 ---
 
@@ -153,7 +153,7 @@ Test coverage areas:
 ### Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/carbontrace
+git clone https://github.com/subbaraoguggilam/carbontrace
 cd carbontrace
 npm install
 npm start
