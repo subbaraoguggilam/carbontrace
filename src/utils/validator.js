@@ -40,7 +40,9 @@ const ALLOWED_DIETS = ['vegan', 'vegetarian', 'pescatarian', 'omnivore', 'high_m
  */
 function clampNumber(value) {
   const n = typeof value === 'number' ? value : parseFloat(value);
-  if (!isFinite(n) || isNaN(n)) return null;
+  if (!isFinite(n) || isNaN(n)) {
+    return null;
+  }
   return Math.min(Math.max(n, MIN_VALUE), MAX_VALUE);
 }
 
@@ -51,10 +53,14 @@ function clampNumber(value) {
  */
 function sanitizeCategory(obj, allowedKeys) {
   const result = {};
-  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return result;
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
+    return result;
+  }
 
   for (const key of allowedKeys) {
-    if (!(key in obj)) continue;
+    if (!(key in obj)) {
+      continue;
+    }
     const clamped = clampNumber(obj[key]);
     if (clamped !== null && clamped > 0) {
       result[key] = clamped;

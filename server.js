@@ -20,6 +20,8 @@ const {
 } = require('./src/utils/carbonCalculator');
 
 const { validateCalculateInput, validateKgParam } = require('./src/utils/validator');
+const logger = require('./src/utils/logger');
+const { AppError } = require('./src/utils/errors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -91,8 +93,26 @@ const calculateLimiter = rateLimit({
 });
 
 // ---------------------------------------------------------------------------
-// Static frontend
+// Response helpers
 // ---------------------------------------------------------------------------
+
+/**
+ * Sends a consistent JSON error response, avoiding the same
+ * { success: false, error, requestId } shape being hand-typed in every route.
+ * @param {import('express').Response} res
+ * @param {number} statusCode
+ * @param {string|string[]} errorOrErrors - single error message or array of errors
+ * @param {string} requestId
+ */
+function sendError(res, statusCode, errorOrErrors, requestId) {
+  const body = { success: false, requestId };
+  if (Array.isArray(errorOrErrors)) {
+    body.errors = errorOrErrors;
+  } else {
+    body.error = errorOrErrors;
+  }
+  return res.status(statusCode).json(body);
+}
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1d', etag: true }));
 
@@ -126,11 +146,7 @@ app.post('/api/calculate', calculateLimiter, (req, res) => {
   const { value: sanitizedInput, errors } = validateCalculateInput(req.body);
 
   if (errors.length > 0) {
-    return res.status(400).json({
-      success: false,
-      errors,
-      requestId: req.requestId,
-    });
+    return sendError(res, 400, errors, req.requestId);
   }
 
   try {
@@ -144,12 +160,10 @@ app.post('/api/calculate', calculateLimiter, (req, res) => {
       requestId: req.requestId,
     });
   } catch (err) {
-    console.error(`[${req.requestId}] /api/calculate failed:`, err);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to calculate footprint',
-      requestId: req.requestId,
-    });
+    const appErr =
+      err instanceof AppError ? err : new AppError('Failed to calculate footprint', 500);
+    logger.error('calculate failed', { requestId: req.requestId, message: err.message });
+    sendError(res, appErr.statusCode, appErr.message, req.requestId);
   }
 });
 
@@ -157,7 +171,7 @@ app.get('/api/equivalencies/:kg', (req, res) => {
   const { value, error } = validateKgParam(req.params.kg);
 
   if (error) {
-    return res.status(400).json({ success: false, error, requestId: req.requestId });
+    return sendError(res, 400, error, req.requestId);
   }
 
   res.json({
@@ -172,7 +186,7 @@ app.get('/api/equivalencies/:kg', (req, res) => {
 // ---------------------------------------------------------------------------
 
 app.use('/api', (req, res) => {
-  res.status(404).json({ success: false, error: 'Not found' });
+  sendError(res, 404, 'Not found', req.requestId);
 });
 
 // SPA fallback: any non-API GET route serves the frontend shell from memory.
@@ -184,18 +198,19 @@ app.get('*', (req, res) => {
 // Centralised error handler (e.g. malformed JSON bodies from express.json()).
 app.use((err, req, res, next) => {
   if (err.type === 'entity.too.large') {
-    return res.status(413).json({ success: false, error: 'Payload too large' });
+    return sendError(res, 413, 'Payload too large', req.requestId);
   }
   if (err instanceof SyntaxError) {
-    return res.status(400).json({ success: false, error: 'Invalid JSON body' });
+    return sendError(res, 400, 'Invalid JSON body', req.requestId);
   }
-  res.status(500).json({ success: false, error: 'Internal server error' });
+  logger.error('unhandled error', { requestId: req.requestId, message: err.message });
+  sendError(res, 500, 'Internal server error', req.requestId);
 });
 
 // Only start listening when run directly (not when imported by tests).
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`CarbonTrace server running on port ${PORT}`);
+    logger.info('CarbonTrace server started', { port: PORT });
   });
 }
 

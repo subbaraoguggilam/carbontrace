@@ -158,7 +158,10 @@ describe('calculateTotalFootprint', () => {
 
   test('comparison percentages are computed relative to benchmarks', () => {
     const result = calculateTotalFootprint({
-      transport: {}, home: {}, food: { diet: 'vegan', days: 7 }, shopping: {},
+      transport: {},
+      home: {},
+      food: { diet: 'vegan', days: 7 },
+      shopping: {},
     });
     expect(result.comparison.vs_global_avg).toBeGreaterThan(0);
     expect(result.comparison.vs_paris_target).toBeGreaterThan(0);
@@ -166,7 +169,10 @@ describe('calculateTotalFootprint', () => {
 
   test('higher activity input produces a higher total than lower activity input', () => {
     const low = calculateTotalFootprint({
-      transport: { car_petrol: 10 }, home: {}, food: { diet: 'vegan', days: 7 }, shopping: {},
+      transport: { car_petrol: 10 },
+      home: {},
+      food: { diet: 'vegan', days: 7 },
+      shopping: {},
     });
     const high = calculateTotalFootprint({
       transport: { car_petrol: 500, flight_international: 5000 },
@@ -183,7 +189,10 @@ describe('calculateTotalFootprint', () => {
 
   test('each category breakdown is present in the result', () => {
     const result = calculateTotalFootprint({
-      transport: { car_petrol: 10 }, home: {}, food: {}, shopping: {},
+      transport: { car_petrol: 10 },
+      home: {},
+      food: {},
+      shopping: {},
     });
     expect(result.categories).toHaveProperty('transport');
     expect(result.categories).toHaveProperty('home');

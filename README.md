@@ -13,7 +13,7 @@ CarbonTrace helps individuals understand, track, and reduce their personal carbo
 
 ## 🚀 Live Demo
 
-https://carbontrace-z2zm.onrender.com/ 
+**[REPLACE_WITH_YOUR_RENDER_URL]** _(add your deployed Render URL here after deploying)_
 
 ---
 
@@ -53,15 +53,15 @@ carbontrace/
 
 All factors are expressed in **kg CO₂e per unit of activity** and are reasonable, widely-cited approximations suitable for an awareness/education tool (not a certified carbon audit):
 
-| Category | Example factor |
-|---|---|
-| Petrol car | 0.192 kg CO₂e/km |
-| Electric car | 0.053 kg CO₂e/km |
-| Grid electricity | 0.233 kg CO₂e/kWh |
-| Omnivore diet | 5.63 kg CO₂e/day |
-| High-meat diet | 7.19 kg CO₂e/day |
-| Vegan diet | 2.89 kg CO₂e/day |
-| Domestic flight | 0.255 kg CO₂e/km (incl. radiative forcing) |
+| Category         | Example factor                             |
+| ---------------- | ------------------------------------------ |
+| Petrol car       | 0.192 kg CO₂e/km                           |
+| Electric car     | 0.053 kg CO₂e/km                           |
+| Grid electricity | 0.233 kg CO₂e/kWh                          |
+| Omnivore diet    | 5.63 kg CO₂e/day                           |
+| High-meat diet   | 7.19 kg CO₂e/day                           |
+| Vegan diet       | 2.89 kg CO₂e/day                           |
+| Domestic flight  | 0.255 kg CO₂e/km (incl. radiative forcing) |
 
 Sources referenced when selecting factors: EPA (2023) Emission Factors for Greenhouse Gas Inventories, IPCC AR6 (2021) Ch.8, IEA (2023) CO₂ Emissions from Fuel Combustion, and Our World in Data per-capita comparisons.
 
@@ -78,15 +78,15 @@ Transport, home, and shopping inputs are collected as **weekly** activity and an
 
 ## 🔒 Security
 
-| Control | Implementation |
-|---|---|
-| Security headers | `helmet` (CSP, HSTS, X-Content-Type-Options, etc.) |
-| Rate limiting | 100 req/15min globally on `/api/*`, 20 req/min on `/api/calculate` |
-| Input whitelist | Only known keys per category are accepted; everything else is dropped |
-| Numeric clamping | All numeric input clamped to `[0, 100000]` |
-| JSON body limit | 10KB max request body |
-| CORS | Configurable via `ALLOWED_ORIGIN` env var |
-| Request tracing | UUID (`X-Request-Id`) generated per request |
+| Control                  | Implementation                                                                                                                    |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| Security headers         | `helmet` (CSP, HSTS, X-Content-Type-Options, etc.)                                                                                |
+| Rate limiting            | 100 req/15min globally on `/api/*`, 20 req/min on `/api/calculate`                                                                |
+| Input whitelist          | Only known keys per category are accepted; everything else is dropped                                                             |
+| Numeric clamping         | All numeric input clamped to `[0, 100000]`                                                                                        |
+| JSON body limit          | 10KB max request body                                                                                                             |
+| CORS                     | Configurable via `ALLOWED_ORIGIN` env var                                                                                         |
+| Request tracing          | UUID (`X-Request-Id`) generated per request                                                                                       |
 | No inline event handlers | All `onclick` attributes replaced with a delegated listener + function whitelist, so CSP's `script-src-attr 'none'` default holds |
 
 **Note on CSP:** `script-src` includes `'unsafe-inline'` because the frontend is a single static `index.html` with its logic in one inline `<script>` block, and no per-request nonce is generated for static files. This is documented in `server.js`. If you split the script into an external `.js` file served from `/public`, you can remove `'unsafe-inline'` from `script-src` entirely.
@@ -127,6 +127,7 @@ All files              |   94.47 |    88.37 |   88.46 |   95.33
 ```
 
 Test coverage areas:
+
 - Transport, home, food, and shopping emission calculations
 - Total footprint aggregation and benchmark comparisons
 - Recommendation generation and impact-based sorting
@@ -148,12 +149,13 @@ Test coverage areas:
 ## 🛠️ Local Development
 
 ### Prerequisites
+
 - Node.js 18+
 
 ### Setup
 
 ```bash
-git clone https://github.com/subbaraoguggilam/carbontrace
+git clone https://github.com/YOUR_USERNAME/carbontrace
 cd carbontrace
 npm install
 npm start
@@ -170,10 +172,10 @@ npm run test:unit # verbose output, no coverage report
 
 ### Environment variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `PORT` | `3000` | Server port |
-| `ALLOWED_ORIGIN` | `*` | CORS allowed origin |
+| Variable         | Default | Description         |
+| ---------------- | ------- | ------------------- |
+| `PORT`           | `3000`  | Server port         |
+| `ALLOWED_ORIGIN` | `*`     | CORS allowed origin |
 
 ---
 
@@ -184,6 +186,7 @@ npm run test:unit # verbose output, no coverage report
 Calculate total carbon footprint. Transport/home/shopping values are **weekly**; food is daily × `days`.
 
 **Request body:**
+
 ```json
 {
   "transport": { "car_petrol": 100, "train": 50 },
@@ -194,6 +197,7 @@ Calculate total carbon footprint. Transport/home/shopping values are **weekly**;
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -201,7 +205,7 @@ Calculate total carbon footprint. Transport/home/shopping values are **weekly**;
     "footprint": {
       "total_kg": 9779.55,
       "total_tonnes": 9.7795,
-      "categories": { "transport": { "kg": 1105, "breakdown": { } }, "...": "..." },
+      "categories": { "transport": { "kg": 1105, "breakdown": {} }, "...": "..." },
       "comparison": { "vs_global_avg": 208.1, "vs_paris_target": 489 }
     },
     "recommendations": [
@@ -241,14 +245,14 @@ Health check endpoint (used by Render's health check).
 
 ## 🌍 Impact Context
 
-| Benchmark | Annual CO₂e |
-|---|---|
-| Paris Agreement target | 2.0 tonnes |
-| Global average | 4.7 tonnes |
-| US average | ~14.5 tonnes |
-| India average | ~1.9 tonnes |
+| Benchmark              | Annual CO₂e  |
+| ---------------------- | ------------ |
+| Paris Agreement target | 2.0 tonnes   |
+| Global average         | 4.7 tonnes   |
+| US average             | ~14.5 tonnes |
+| India average          | ~1.9 tonnes  |
 
-*(Country averages are commonly cited approximations from Our World in Data; treat as indicative, not precise.)*
+_(Country averages are commonly cited approximations from Our World in Data; treat as indicative, not precise.)_
 
 ---
 
@@ -258,4 +262,4 @@ MIT License — see [LICENSE](LICENSE)
 
 ---
 
-*Built for Hack2Skill Virtual Prompt Wars.*
+_Built for Hack2Skill Virtual Prompt Wars._

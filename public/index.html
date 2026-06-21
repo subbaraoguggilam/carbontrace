@@ -1,952 +1,1473 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="CarbonTrace — Track, understand, and reduce your personal carbon footprint with science-backed insights and personalised recommendations." />
-  <meta name="theme-color" content="#0f4c35" />
-  <title>CarbonTrace — Know Your Footprint</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CarbonTrace — Track, understand, and reduce your personal carbon footprint with science-backed insights and personalised recommendations."
+    />
+    <meta name="theme-color" content="#0f4c35" />
+    <title>CarbonTrace — Know Your Footprint</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    :root {
-      --green-950: #0a2b1e;
-      --green-900: #0f4c35;
-      --green-800: #1a6b4a;
-      --green-600: #2d9e6b;
-      --green-400: #5ec49a;
-      --green-200: #a8e6c8;
-      --green-50:  #edfaf3;
-      --amber-600: #c07c1a;
-      --amber-100: #fef3d8;
-      --red-600:   #c0392b;
-      --red-50:    #fef2f2;
-      --neutral-900: #111827;
-      --neutral-700: #374151;
-      --neutral-500: #6b7280;
-      --neutral-200: #e5e7eb;
-      --neutral-100: #f3f4f6;
-      --neutral-50:  #f9fafb;
-      --white: #ffffff;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-    }
+      :root {
+        --green-950: #0a2b1e;
+        --green-900: #0f4c35;
+        --green-800: #1a6b4a;
+        --green-600: #2d9e6b;
+        --green-400: #5ec49a;
+        --green-200: #a8e6c8;
+        --green-50: #edfaf3;
+        --amber-600: #c07c1a;
+        --amber-100: #fef3d8;
+        --red-600: #c0392b;
+        --red-50: #fef2f2;
+        --neutral-900: #111827;
+        --neutral-700: #374151;
+        --neutral-500: #6b7280;
+        --neutral-200: #e5e7eb;
+        --neutral-100: #f3f4f6;
+        --neutral-50: #f9fafb;
+        --white: #ffffff;
+        --radius-sm: 6px;
+        --radius-md: 10px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+      }
 
-    /* Skip link */
-    .skip-link {
-      position: absolute; top: -100%; left: 1rem;
-      background: var(--green-900); color: white;
-      padding: 0.75rem 1.25rem; border-radius: var(--radius-md);
-      font-weight: 600; text-decoration: none; z-index: 9999;
-      transition: top 0.1s;
-    }
-    .skip-link:focus { top: 1rem; }
+      /* Skip link */
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        background: var(--green-900);
+        color: white;
+        padding: 0.75rem 1.25rem;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        text-decoration: none;
+        z-index: 9999;
+        transition: top 0.1s;
+      }
+      .skip-link:focus {
+        top: 1rem;
+      }
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--neutral-50);
-      color: var(--neutral-900);
-      line-height: 1.6;
-      min-height: 100vh;
-    }
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--neutral-50);
+        color: var(--neutral-900);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
 
-    /* ── Header ── */
-    header {
-      background: var(--green-900);
-      color: white;
-      padding: 0 1.5rem;
-    }
-    .header-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-    }
-    .logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem; font-weight: 700;
-      display: flex; align-items: center; gap: 0.5rem;
-      color: white; text-decoration: none;
-    }
-    .logo-leaf { font-size: 1.4rem; }
-    .header-badge {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 99px; padding: 4px 14px;
-      font-size: 0.75rem; font-weight: 500;
-      color: rgba(255,255,255,0.9);
-    }
+      /* ── Header ── */
+      header {
+        background: var(--green-900);
+        color: white;
+        padding: 0 1.5rem;
+      }
+      .header-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+      }
+      .logo {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        text-decoration: none;
+      }
+      .logo-leaf {
+        font-size: 1.4rem;
+      }
+      .header-badge {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 99px;
+        padding: 4px 14px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
+      }
 
-    /* ── Hero ── */
-    .hero {
-      background: linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 100%);
-      color: white; padding: 4rem 1.5rem 3rem;
-      text-align: center;
-    }
-    .hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.25rem);
-      font-weight: 700; line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-    .hero h1 span { color: var(--green-200); }
-    .hero p {
-      font-size: 1.1rem; color: rgba(255,255,255,0.85);
-      max-width: 540px; margin: 0 auto 2rem;
-    }
-    .hero-stats {
-      display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
-      margin-top: 2rem;
-    }
-    .hero-stat { text-align: center; }
-    .hero-stat .num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2rem; font-weight: 700; color: var(--green-200);
-      display: block;
-    }
-    .hero-stat .label { font-size: 0.8rem; color: rgba(255,255,255,0.7); }
+      /* ── Hero ── */
+      .hero {
+        background: linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 100%);
+        color: white;
+        padding: 4rem 1.5rem 3rem;
+        text-align: center;
+      }
+      .hero h1 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(2rem, 5vw, 3.25rem);
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 1rem;
+      }
+      .hero h1 span {
+        color: var(--green-200);
+      }
+      .hero p {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.85);
+        max-width: 540px;
+        margin: 0 auto 2rem;
+      }
+      .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+      }
+      .hero-stat {
+        text-align: center;
+      }
+      .hero-stat .num {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--green-200);
+        display: block;
+      }
+      .hero-stat .label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
 
-    /* ── Main layout ── */
-    main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+      /* ── Main layout ── */
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem;
+      }
 
-    /* ── Progress Steps ── */
-    .steps-nav {
-      display: flex; gap: 0; margin-bottom: 2rem;
-      border: 1.5px solid var(--neutral-200);
-      border-radius: var(--radius-lg); overflow: hidden;
-      background: white;
-    }
-    .step-btn {
-      flex: 1; padding: 0.875rem 0.5rem;
-      border: none; background: transparent; cursor: pointer;
-      font-size: 0.8rem; font-weight: 500;
-      color: var(--neutral-500);
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      border-right: 1px solid var(--neutral-200);
-      transition: background 0.15s, color 0.15s;
-      position: relative;
-    }
-    .step-btn:last-child { border-right: none; }
-    .step-btn .step-num {
-      width: 26px; height: 26px; border-radius: 50%;
-      background: var(--neutral-100); color: var(--neutral-500);
-      font-weight: 600; font-size: 0.75rem;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .step-btn[aria-selected="true"] {
-      background: var(--green-50); color: var(--green-800);
-    }
-    .step-btn[aria-selected="true"] .step-num {
-      background: var(--green-800); color: white;
-    }
-    .step-btn.completed { color: var(--green-700); }
-    .step-btn.completed .step-num {
-      background: var(--green-600); color: white;
-    }
-    .step-btn:focus-visible {
-      outline: 3px solid var(--green-600); outline-offset: -3px;
-    }
+      /* ── Progress Steps ── */
+      .steps-nav {
+        display: flex;
+        gap: 0;
+        margin-bottom: 2rem;
+        border: 1.5px solid var(--neutral-200);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: white;
+      }
+      .step-btn {
+        flex: 1;
+        padding: 0.875rem 0.5rem;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--neutral-500);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        border-right: 1px solid var(--neutral-200);
+        transition:
+          background 0.15s,
+          color 0.15s;
+        position: relative;
+      }
+      .step-btn:last-child {
+        border-right: none;
+      }
+      .step-btn .step-num {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--neutral-100);
+        color: var(--neutral-500);
+        font-weight: 600;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .step-btn[aria-selected='true'] {
+        background: var(--green-50);
+        color: var(--green-800);
+      }
+      .step-btn[aria-selected='true'] .step-num {
+        background: var(--green-800);
+        color: white;
+      }
+      .step-btn.completed {
+        color: var(--green-700);
+      }
+      .step-btn.completed .step-num {
+        background: var(--green-600);
+        color: white;
+      }
+      .step-btn:focus-visible {
+        outline: 3px solid var(--green-600);
+        outline-offset: -3px;
+      }
 
-    /* ── Cards ── */
-    .card {
-      background: white; border-radius: var(--radius-lg);
-      border: 1.5px solid var(--neutral-200);
-      padding: 2rem; margin-bottom: 1.5rem;
-    }
-    .card h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.3rem; font-weight: 600;
-      margin-bottom: 0.25rem; color: var(--neutral-900);
-    }
-    .card-desc { color: var(--neutral-500); font-size: 0.9rem; margin-bottom: 1.75rem; }
+      /* ── Cards ── */
+      .card {
+        background: white;
+        border-radius: var(--radius-lg);
+        border: 1.5px solid var(--neutral-200);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      .card h2 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: var(--neutral-900);
+      }
+      .card-desc {
+        color: var(--neutral-500);
+        font-size: 0.9rem;
+        margin-bottom: 1.75rem;
+      }
 
-    /* ── Form elements ── */
-    .form-grid {
-      display: grid; gap: 1.25rem;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    label {
-      font-size: 0.85rem; font-weight: 500; color: var(--neutral-700);
-    }
-    input[type="number"], select {
-      height: 42px; padding: 0 12px;
-      border: 1.5px solid var(--neutral-200);
-      border-radius: var(--radius-sm);
-      font-size: 0.95rem; font-family: inherit;
-      color: var(--neutral-900);
-      background: white;
-      transition: border-color 0.15s;
-      width: 100%;
-      -moz-appearance: textfield;
-    }
-    input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
-    input[type="number"]:focus, select:focus {
-      outline: none;
-      border-color: var(--green-600);
-      box-shadow: 0 0 0 3px rgba(45,158,107,0.15);
-    }
-    .input-hint { font-size: 0.75rem; color: var(--neutral-500); }
-    .input-unit {
-      position: relative;
-    }
-    .input-unit input { padding-right: 48px; }
-    .unit-label {
-      position: absolute; right: 12px; top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.75rem; color: var(--neutral-500);
-      pointer-events: none;
-    }
+      /* ── Form elements ── */
+      .form-grid {
+        display: grid;
+        gap: 1.25rem;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--neutral-700);
+      }
+      input[type='number'],
+      select {
+        height: 42px;
+        padding: 0 12px;
+        border: 1.5px solid var(--neutral-200);
+        border-radius: var(--radius-sm);
+        font-size: 0.95rem;
+        font-family: inherit;
+        color: var(--neutral-900);
+        background: white;
+        transition: border-color 0.15s;
+        width: 100%;
+        -moz-appearance: textfield;
+      }
+      input[type='number']::-webkit-outer-spin-button,
+      input[type='number']::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+      input[type='number']:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--green-600);
+        box-shadow: 0 0 0 3px rgba(45, 158, 107, 0.15);
+      }
+      .input-hint {
+        font-size: 0.75rem;
+        color: var(--neutral-500);
+      }
+      .input-unit {
+        position: relative;
+      }
+      .input-unit input {
+        padding-right: 48px;
+      }
+      .unit-label {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.75rem;
+        color: var(--neutral-500);
+        pointer-events: none;
+      }
 
-    /* Diet selector */
-    .diet-grid {
-      display: grid; gap: 10px;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    }
-    .diet-option { position: relative; }
-    .diet-option input[type="radio"] {
-      position: absolute; opacity: 0; width: 100%; height: 100%;
-      cursor: pointer; margin: 0;
-    }
-    .diet-label {
-      display: block; padding: 10px 12px;
-      border: 1.5px solid var(--neutral-200);
-      border-radius: var(--radius-md);
-      cursor: pointer; text-align: center;
-      transition: all 0.15s; background: white;
-      user-select: none;
-    }
-    .diet-label .diet-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
-    .diet-label .diet-name { font-size: 0.8rem; font-weight: 500; color: var(--neutral-700); }
-    .diet-option input:checked + .diet-label {
-      border-color: var(--green-600);
-      background: var(--green-50);
-      color: var(--green-800);
-    }
-    .diet-option input:checked + .diet-label .diet-name { color: var(--green-800); }
-    .diet-option input:focus-visible + .diet-label {
-      outline: 3px solid var(--green-600); outline-offset: 2px;
-    }
+      /* Diet selector */
+      .diet-grid {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      }
+      .diet-option {
+        position: relative;
+      }
+      .diet-option input[type='radio'] {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        margin: 0;
+      }
+      .diet-label {
+        display: block;
+        padding: 10px 12px;
+        border: 1.5px solid var(--neutral-200);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.15s;
+        background: white;
+        user-select: none;
+      }
+      .diet-label .diet-icon {
+        font-size: 1.5rem;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .diet-label .diet-name {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--neutral-700);
+      }
+      .diet-option input:checked + .diet-label {
+        border-color: var(--green-600);
+        background: var(--green-50);
+        color: var(--green-800);
+      }
+      .diet-option input:checked + .diet-label .diet-name {
+        color: var(--green-800);
+      }
+      .diet-option input:focus-visible + .diet-label {
+        outline: 3px solid var(--green-600);
+        outline-offset: 2px;
+      }
 
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 0.75rem 1.5rem; border-radius: var(--radius-md);
-      font-size: 0.95rem; font-weight: 600;
-      cursor: pointer; border: none; transition: all 0.15s;
-      font-family: inherit;
-    }
-    .btn-primary {
-      background: var(--green-900); color: white;
-    }
-    .btn-primary:hover { background: var(--green-800); }
-    .btn-primary:focus-visible {
-      outline: 3px solid var(--green-600); outline-offset: 3px;
-    }
-    .btn-primary:active { transform: scale(0.98); }
-    .btn-secondary {
-      background: white; color: var(--neutral-700);
-      border: 1.5px solid var(--neutral-200);
-    }
-    .btn-secondary:hover { background: var(--neutral-50); border-color: var(--neutral-300); }
-    .btn-secondary:focus-visible {
-      outline: 3px solid var(--green-600); outline-offset: 3px;
-    }
-    .btn-row { display: flex; gap: 12px; margin-top: 2rem; flex-wrap: wrap; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+      /* ── Buttons ── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius-md);
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: all 0.15s;
+        font-family: inherit;
+      }
+      .btn-primary {
+        background: var(--green-900);
+        color: white;
+      }
+      .btn-primary:hover {
+        background: var(--green-800);
+      }
+      .btn-primary:focus-visible {
+        outline: 3px solid var(--green-600);
+        outline-offset: 3px;
+      }
+      .btn-primary:active {
+        transform: scale(0.98);
+      }
+      .btn-secondary {
+        background: white;
+        color: var(--neutral-700);
+        border: 1.5px solid var(--neutral-200);
+      }
+      .btn-secondary:hover {
+        background: var(--neutral-50);
+        border-color: var(--neutral-300);
+      }
+      .btn-secondary:focus-visible {
+        outline: 3px solid var(--green-600);
+        outline-offset: 3px;
+      }
+      .btn-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
 
-    /* ── Results ── */
-    #results { display: none; }
+      /* ── Results ── */
+      #results {
+        display: none;
+      }
 
-    .score-band {
-      border-radius: var(--radius-lg); padding: 2rem;
-      text-align: center; margin-bottom: 1.5rem;
-    }
-    .score-band.low { background: var(--green-50); border: 1.5px solid var(--green-200); }
-    .score-band.medium { background: var(--amber-100); border: 1.5px solid #f6c768; }
-    .score-band.high { background: var(--red-50); border: 1.5px solid #fca5a5; }
+      .score-band {
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      .score-band.low {
+        background: var(--green-50);
+        border: 1.5px solid var(--green-200);
+      }
+      .score-band.medium {
+        background: var(--amber-100);
+        border: 1.5px solid #f6c768;
+      }
+      .score-band.high {
+        background: var(--red-50);
+        border: 1.5px solid #fca5a5;
+      }
 
-    .score-tonnes {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 3.5rem; font-weight: 700; line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-    .score-band.low .score-tonnes { color: var(--green-800); }
-    .score-band.medium .score-tonnes { color: var(--amber-600); }
-    .score-band.high .score-tonnes { color: var(--red-600); }
-    .score-label { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
-    .score-sub { font-size: 0.875rem; color: var(--neutral-600); }
+      .score-tonnes {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+      }
+      .score-band.low .score-tonnes {
+        color: var(--green-800);
+      }
+      .score-band.medium .score-tonnes {
+        color: var(--amber-600);
+      }
+      .score-band.high .score-tonnes {
+        color: var(--red-600);
+      }
+      .score-label {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+      .score-sub {
+        font-size: 0.875rem;
+        color: var(--neutral-600);
+      }
 
-    /* Comparison bars */
-    .compare-bar-wrap { margin: 1.5rem 0; }
-    .compare-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-    .compare-row-label { font-size: 0.8rem; width: 120px; text-align: right; color: var(--neutral-600); flex-shrink: 0; }
-    .bar-track {
-      flex: 1; height: 10px; background: var(--neutral-100);
-      border-radius: 99px; overflow: hidden; position: relative;
-    }
-    .bar-fill {
-      height: 100%; border-radius: 99px;
-      transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
-    }
-    .bar-fill.you { background: var(--green-600); }
-    .bar-fill.global { background: #94a3b8; }
-    .bar-fill.paris { background: #64748b; }
-    .compare-val { font-size: 0.8rem; font-weight: 600; width: 50px; color: var(--neutral-700); }
+      /* Comparison bars */
+      .compare-bar-wrap {
+        margin: 1.5rem 0;
+      }
+      .compare-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .compare-row-label {
+        font-size: 0.8rem;
+        width: 120px;
+        text-align: right;
+        color: var(--neutral-600);
+        flex-shrink: 0;
+      }
+      .bar-track {
+        flex: 1;
+        height: 10px;
+        background: var(--neutral-100);
+        border-radius: 99px;
+        overflow: hidden;
+        position: relative;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .bar-fill.you {
+        background: var(--green-600);
+      }
+      .bar-fill.global {
+        background: #94a3b8;
+      }
+      .bar-fill.paris {
+        background: #64748b;
+      }
+      .compare-val {
+        font-size: 0.8rem;
+        font-weight: 600;
+        width: 50px;
+        color: var(--neutral-700);
+      }
 
-    /* Category breakdown */
-    .breakdown-grid {
-      display: grid; gap: 12px;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-    .breakdown-card {
-      background: var(--neutral-50);
-      border: 1.5px solid var(--neutral-200);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.25rem;
-    }
-    .breakdown-card-top {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
-    }
-    .breakdown-icon {
-      width: 36px; height: 36px; border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; flex-shrink: 0;
-    }
-    .breakdown-icon.transport { background: #eff6ff; }
-    .breakdown-icon.home { background: #fff7ed; }
-    .breakdown-icon.food { background: var(--green-50); }
-    .breakdown-icon.shopping { background: #faf5ff; }
-    .breakdown-name { font-size: 0.85rem; font-weight: 600; color: var(--neutral-700); }
-    .breakdown-kg { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; }
-    .breakdown-pct { font-size: 0.75rem; color: var(--neutral-500); }
-    .mini-bar {
-      height: 4px; background: var(--neutral-200); border-radius: 99px; overflow: hidden;
-    }
-    .mini-bar-fill {
-      height: 100%; border-radius: 99px;
-      transition: width 0.8s;
-    }
-    .mini-bar-fill.transport { background: #3b82f6; }
-    .mini-bar-fill.home { background: #f97316; }
-    .mini-bar-fill.food { background: var(--green-600); }
-    .mini-bar-fill.shopping { background: #8b5cf6; }
+      /* Category breakdown */
+      .breakdown-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      .breakdown-card {
+        background: var(--neutral-50);
+        border: 1.5px solid var(--neutral-200);
+        border-radius: var(--radius-md);
+        padding: 1rem 1.25rem;
+      }
+      .breakdown-card-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .breakdown-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+      .breakdown-icon.transport {
+        background: #eff6ff;
+      }
+      .breakdown-icon.home {
+        background: #fff7ed;
+      }
+      .breakdown-icon.food {
+        background: var(--green-50);
+      }
+      .breakdown-icon.shopping {
+        background: #faf5ff;
+      }
+      .breakdown-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--neutral-700);
+      }
+      .breakdown-kg {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+      .breakdown-pct {
+        font-size: 0.75rem;
+        color: var(--neutral-500);
+      }
+      .mini-bar {
+        height: 4px;
+        background: var(--neutral-200);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .mini-bar-fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.8s;
+      }
+      .mini-bar-fill.transport {
+        background: #3b82f6;
+      }
+      .mini-bar-fill.home {
+        background: #f97316;
+      }
+      .mini-bar-fill.food {
+        background: var(--green-600);
+      }
+      .mini-bar-fill.shopping {
+        background: #8b5cf6;
+      }
 
-    /* Equivalencies */
-    .equiv-grid {
-      display: grid; gap: 10px;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    }
-    .equiv-card {
-      background: var(--neutral-50); border: 1.5px solid var(--neutral-200);
-      border-radius: var(--radius-md); padding: 1rem;
-      text-align: center;
-    }
-    .equiv-icon { font-size: 1.8rem; margin-bottom: 6px; }
-    .equiv-num { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--green-800); }
-    .equiv-desc { font-size: 0.75rem; color: var(--neutral-500); }
+      /* Equivalencies */
+      .equiv-grid {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      }
+      .equiv-card {
+        background: var(--neutral-50);
+        border: 1.5px solid var(--neutral-200);
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        text-align: center;
+      }
+      .equiv-icon {
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+      }
+      .equiv-num {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--green-800);
+      }
+      .equiv-desc {
+        font-size: 0.75rem;
+        color: var(--neutral-500);
+      }
 
-    /* Recommendations */
-    .rec-item {
-      display: flex; gap: 16px; align-items: flex-start;
-      padding: 1.25rem; border: 1.5px solid var(--neutral-200);
-      border-radius: var(--radius-md); margin-bottom: 10px;
-      background: white; transition: border-color 0.15s;
-    }
-    .rec-item:hover { border-color: var(--green-400); }
-    .rec-badge {
-      flex-shrink: 0; width: 44px; height: 44px;
-      border-radius: var(--radius-sm);
-      background: var(--green-50); color: var(--green-800);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.25rem;
-    }
-    .rec-content { flex: 1; }
-    .rec-action { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
-    .rec-impact { font-size: 0.8rem; color: var(--green-700); font-weight: 500; }
-    .rec-tags { display: flex; gap: 6px; margin-top: 8px; }
-    .tag {
-      font-size: 0.7rem; font-weight: 600; padding: 2px 8px;
-      border-radius: 99px; letter-spacing: 0.02em;
-    }
-    .tag-easy { background: var(--green-50); color: var(--green-800); }
-    .tag-medium { background: var(--amber-100); color: #854d0e; }
-    .tag-saving { background: #f0fdf4; color: #166534; }
+      /* Recommendations */
+      .rec-item {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        padding: 1.25rem;
+        border: 1.5px solid var(--neutral-200);
+        border-radius: var(--radius-md);
+        margin-bottom: 10px;
+        background: white;
+        transition: border-color 0.15s;
+      }
+      .rec-item:hover {
+        border-color: var(--green-400);
+      }
+      .rec-badge {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-sm);
+        background: var(--green-50);
+        color: var(--green-800);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+      }
+      .rec-content {
+        flex: 1;
+      }
+      .rec-action {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+      }
+      .rec-impact {
+        font-size: 0.8rem;
+        color: var(--green-700);
+        font-weight: 500;
+      }
+      .rec-tags {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+      }
+      .tag {
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 99px;
+        letter-spacing: 0.02em;
+      }
+      .tag-easy {
+        background: var(--green-50);
+        color: var(--green-800);
+      }
+      .tag-medium {
+        background: var(--amber-100);
+        color: #854d0e;
+      }
+      .tag-saving {
+        background: #f0fdf4;
+        color: #166534;
+      }
 
-    /* ── Loading state ── */
-    .loading-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.4); z-index: 1000;
-      align-items: center; justify-content: center;
-    }
-    .loading-overlay.visible { display: flex; }
-    .loading-card {
-      background: white; border-radius: var(--radius-xl);
-      padding: 2.5rem 3rem; text-align: center;
-    }
-    .spinner {
-      width: 48px; height: 48px; border: 4px solid var(--neutral-200);
-      border-top-color: var(--green-600); border-radius: 50%;
-      animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+      /* ── Loading state ── */
+      .loading-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      .loading-overlay.visible {
+        display: flex;
+      }
+      .loading-card {
+        background: white;
+        border-radius: var(--radius-xl);
+        padding: 2.5rem 3rem;
+        text-align: center;
+      }
+      .spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid var(--neutral-200);
+        border-top-color: var(--green-600);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 1rem;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
-    /* ── Error ── */
-    .error-box {
-      background: var(--red-50); border: 1.5px solid #fca5a5;
-      border-radius: var(--radius-md); padding: 1rem 1.25rem;
-      color: var(--red-600); font-size: 0.9rem; margin-top: 1rem;
-      display: none;
-    }
-    .error-box.visible { display: block; }
+      /* ── Error ── */
+      .error-box {
+        background: var(--red-50);
+        border: 1.5px solid #fca5a5;
+        border-radius: var(--radius-md);
+        padding: 1rem 1.25rem;
+        color: var(--red-600);
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        display: none;
+      }
+      .error-box.visible {
+        display: block;
+      }
 
-    /* ── Section heading ── */
-    .section-h {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;
-      color: var(--neutral-900);
-    }
-    .section-h + .section-sub {
-      font-size: 0.85rem; color: var(--neutral-500);
-      margin-top: -0.75rem; margin-bottom: 1rem;
-    }
+      /* ── Section heading ── */
+      .section-h {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--neutral-900);
+      }
+      .section-h + .section-sub {
+        font-size: 0.85rem;
+        color: var(--neutral-500);
+        margin-top: -0.75rem;
+        margin-bottom: 1rem;
+      }
 
-    /* ── Footer ── */
-    footer {
-      text-align: center; padding: 2.5rem 1rem;
-      border-top: 1px solid var(--neutral-200);
-      color: var(--neutral-500); font-size: 0.8rem; margin-top: 2rem;
-    }
-    footer a { color: var(--green-700); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+      /* ── Footer ── */
+      footer {
+        text-align: center;
+        padding: 2.5rem 1rem;
+        border-top: 1px solid var(--neutral-200);
+        color: var(--neutral-500);
+        font-size: 0.8rem;
+        margin-top: 2rem;
+      }
+      footer a {
+        color: var(--green-700);
+        text-decoration: none;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
 
-    /* ── Responsive ── */
-    @media (max-width: 640px) {
-      .step-btn { font-size: 0.7rem; padding: 0.75rem 0.25rem; }
-      .step-btn .step-label { display: none; }
-      .hero { padding: 2.5rem 1rem 2rem; }
-      .card { padding: 1.25rem; }
-      .hero-stats { gap: 1.25rem; }
-    }
+      /* ── Responsive ── */
+      @media (max-width: 640px) {
+        .step-btn {
+          font-size: 0.7rem;
+          padding: 0.75rem 0.25rem;
+        }
+        .step-btn .step-label {
+          display: none;
+        }
+        .hero {
+          padding: 2.5rem 1rem 2rem;
+        }
+        .card {
+          padding: 1.25rem;
+        }
+        .hero-stats {
+          gap: 1.25rem;
+        }
+      }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-    }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
 
-    /* ── Visible only for screen readers ── */
-    .sr-only {
-      position: absolute; width: 1px; height: 1px;
-      padding: 0; margin: -1px; overflow: hidden;
-      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-    }
+      /* ── Visible only for screen readers ── */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
 
-    /* Page panels */
-    .panel { display: none; }
-    .panel.active { display: block; }
-  </style>
-</head>
-<body>
+      /* Page panels */
+      .panel {
+        display: none;
+      }
+      .panel.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-
-  <div class="loading-overlay" role="status" aria-label="Calculating your footprint" aria-live="polite" id="loadingOverlay">
-    <div class="loading-card">
-      <div class="spinner" aria-hidden="true"></div>
-      <p style="font-weight:600;color:var(--neutral-900)">Calculating your footprint…</p>
-      <p style="font-size:0.85rem;color:var(--neutral-500);margin-top:4px">Using IPCC &amp; EPA emission factors</p>
+    <div
+      class="loading-overlay"
+      role="status"
+      aria-label="Calculating your footprint"
+      aria-live="polite"
+      id="loadingOverlay"
+    >
+      <div class="loading-card">
+        <div class="spinner" aria-hidden="true"></div>
+        <p style="font-weight: 600; color: var(--neutral-900)">Calculating your footprint…</p>
+        <p style="font-size: 0.85rem; color: var(--neutral-500); margin-top: 4px">
+          Using IPCC &amp; EPA emission factors
+        </p>
+      </div>
     </div>
-  </div>
 
-  <header>
-    <div class="header-inner">
-      <a href="/" class="logo" aria-label="CarbonTrace home">
-        <span class="logo-leaf" aria-hidden="true">🌿</span>
-        CarbonTrace
-      </a>
-      <span class="header-badge">Science-backed</span>
-    </div>
-  </header>
-
-  <section class="hero" aria-label="Introduction">
-    <h1>Your actions <span>shape the climate.</span><br>Start with the numbers.</h1>
-    <p>Calculate your personal carbon footprint in minutes and get targeted actions that actually move the needle.</p>
-    <div class="hero-stats" role="list">
-      <div class="hero-stat" role="listitem">
-        <span class="num" aria-label="4.7 tonnes">4.7t</span>
-        <span class="label">Global avg CO₂/year</span>
+    <header>
+      <div class="header-inner">
+        <a href="/" class="logo" aria-label="CarbonTrace home">
+          <span class="logo-leaf" aria-hidden="true">🌿</span>
+          CarbonTrace
+        </a>
+        <span class="header-badge">Science-backed</span>
       </div>
-      <div class="hero-stat" role="listitem">
-        <span class="num" aria-label="2 tonnes">2.0t</span>
-        <span class="label">Paris Agreement target</span>
+    </header>
+
+    <section class="hero" aria-label="Introduction">
+      <h1>Your actions <span>shape the climate.</span><br />Start with the numbers.</h1>
+      <p>
+        Calculate your personal carbon footprint in minutes and get targeted actions that actually
+        move the needle.
+      </p>
+      <div class="hero-stats" role="list">
+        <div class="hero-stat" role="listitem">
+          <span class="num" aria-label="4.7 tonnes">4.7t</span>
+          <span class="label">Global avg CO₂/year</span>
+        </div>
+        <div class="hero-stat" role="listitem">
+          <span class="num" aria-label="2 tonnes">2.0t</span>
+          <span class="label">Paris Agreement target</span>
+        </div>
+        <div class="hero-stat" role="listitem">
+          <span class="num" aria-label="40 percent">40%</span>
+          <span class="label">From food &amp; transport</span>
+        </div>
       </div>
-      <div class="hero-stat" role="listitem">
-        <span class="num" aria-label="40 percent">40%</span>
-        <span class="label">From food &amp; transport</span>
+    </section>
+
+    <main id="main-content">
+      <!-- Step navigation -->
+      <nav aria-label="Footprint calculator steps">
+        <div class="steps-nav" role="tablist">
+          <button
+            class="step-btn"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-transport"
+            id="tab-transport"
+            data-onclick="goToStep(0)"
+          >
+            <span class="step-num" aria-hidden="true">1</span>
+            <span class="step-label">Transport</span>
+          </button>
+          <button
+            class="step-btn"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-home"
+            id="tab-home"
+            data-onclick="goToStep(1)"
+          >
+            <span class="step-num" aria-hidden="true">2</span>
+            <span class="step-label">Home</span>
+          </button>
+          <button
+            class="step-btn"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-food"
+            id="tab-food"
+            data-onclick="goToStep(2)"
+          >
+            <span class="step-num" aria-hidden="true">3</span>
+            <span class="step-label">Food</span>
+          </button>
+          <button
+            class="step-btn"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-shopping"
+            id="tab-shopping"
+            data-onclick="goToStep(3)"
+          >
+            <span class="step-num" aria-hidden="true">4</span>
+            <span class="step-label">Shopping</span>
+          </button>
+          <button
+            class="step-btn"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-results"
+            id="tab-results"
+            data-onclick="goToStep(4)"
+            aria-disabled="true"
+          >
+            <span class="step-num" aria-hidden="true">5</span>
+            <span class="step-label">Results</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Error display -->
+      <div class="error-box" id="errorBox" role="alert" aria-live="assertive"></div>
+
+      <!-- ── Panel 1: Transport ── -->
+      <div
+        class="panel active"
+        id="panel-transport"
+        role="tabpanel"
+        aria-labelledby="tab-transport"
+      >
+        <div class="card">
+          <h2>🚗 Transport</h2>
+          <p class="card-desc">Enter your typical weekly travel distances. Leave blank for zero.</p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="car_petrol">Petrol / gasoline car</label>
+              <div class="input-unit">
+                <input
+                  type="number"
+                  id="car_petrol"
+                  min="0"
+                  max="5000"
+                  step="1"
+                  placeholder="0"
+                  aria-describedby="car_petrol_hint"
+                />
+                <span class="unit-label" aria-hidden="true">km/wk</span>
+              </div>
+              <span class="input-hint" id="car_petrol_hint">Weekly km driven</span>
+            </div>
+            <div class="form-group">
+              <label for="car_electric">Electric vehicle</label>
+              <div class="input-unit">
+                <input
+                  type="number"
+                  id="car_electric"
+                  min="0"
+                  max="5000"
+                  step="1"
+                  placeholder="0"
+                />
+                <span class="unit-label" aria-hidden="true">km/wk</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="motorcycle">Motorcycle / scooter</label>
+              <div class="input-unit">
+                <input type="number" id="motorcycle" min="0" max="5000" step="1" placeholder="0" />
+                <span class="unit-label" aria-hidden="true">km/wk</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="bus">Bus</label>
+              <div class="input-unit">
+                <input type="number" id="bus" min="0" max="5000" step="1" placeholder="0" />
+                <span class="unit-label" aria-hidden="true">km/wk</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="train">Train / metro</label>
+              <div class="input-unit">
+                <input type="number" id="train" min="0" max="5000" step="1" placeholder="0" />
+                <span class="unit-label" aria-hidden="true">km/wk</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="flight_domestic">Domestic flights (annual)</label>
+              <div class="input-unit">
+                <input
+                  type="number"
+                  id="flight_domestic"
+                  min="0"
+                  max="200000"
+                  step="100"
+                  placeholder="0"
+                />
+                <span class="unit-label" aria-hidden="true">km/yr</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="flight_international">International flights (annual)</label>
+              <div class="input-unit">
+                <input
+                  type="number"
+                  id="flight_international"
+                  min="0"
+                  max="500000"
+                  step="100"
+                  placeholder="0"
+                />
+                <span class="unit-label" aria-hidden="true">km/yr</span>
+              </div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" data-onclick="goToStep(1)">Next: Home energy →</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
 
-  <main id="main-content">
-
-    <!-- Step navigation -->
-    <nav aria-label="Footprint calculator steps">
-      <div class="steps-nav" role="tablist">
-        <button class="step-btn" role="tab" aria-selected="true" aria-controls="panel-transport" id="tab-transport" data-onclick="goToStep(0)">
-          <span class="step-num" aria-hidden="true">1</span>
-          <span class="step-label">Transport</span>
-        </button>
-        <button class="step-btn" role="tab" aria-selected="false" aria-controls="panel-home" id="tab-home" data-onclick="goToStep(1)">
-          <span class="step-num" aria-hidden="true">2</span>
-          <span class="step-label">Home</span>
-        </button>
-        <button class="step-btn" role="tab" aria-selected="false" aria-controls="panel-food" id="tab-food" data-onclick="goToStep(2)">
-          <span class="step-num" aria-hidden="true">3</span>
-          <span class="step-label">Food</span>
-        </button>
-        <button class="step-btn" role="tab" aria-selected="false" aria-controls="panel-shopping" id="tab-shopping" data-onclick="goToStep(3)">
-          <span class="step-num" aria-hidden="true">4</span>
-          <span class="step-label">Shopping</span>
-        </button>
-        <button class="step-btn" role="tab" aria-selected="false" aria-controls="panel-results" id="tab-results" data-onclick="goToStep(4)" aria-disabled="true">
-          <span class="step-num" aria-hidden="true">5</span>
-          <span class="step-label">Results</span>
-        </button>
+      <!-- ── Panel 2: Home ── -->
+      <div class="panel" id="panel-home" role="tabpanel" aria-labelledby="tab-home">
+        <div class="card">
+          <h2>🏠 Home Energy</h2>
+          <p class="card-desc">
+            Your typical monthly energy use. Check your utility bills for accuracy.
+          </p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="electricity_kwh">Grid electricity</label>
+              <div class="input-unit">
+                <input
+                  type="number"
+                  id="electricity_kwh"
+                  min="0"
+                  max="10000"
+                  step="10"
+                  placeholder="0"
+                  aria-describedby="elec_hint"
+                />
+                <span class="unit-label" aria-hidden="true">kWh/mo</span>
+              </div>
+              <span class="input-hint" id="elec_hint">Average household: 250–400 kWh/month</span>
+            </div>
+            <div class="form-group">
+              <label for="solar_kwh">Solar (self-generated)</label>
+              <div class="input-unit">
+                <input type="number" id="solar_kwh" min="0" max="10000" step="10" placeholder="0" />
+                <span class="unit-label" aria-hidden="true">kWh/mo</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="natural_gas_m3">Natural gas</label>
+              <div class="input-unit">
+                <input
+                  type="number"
+                  id="natural_gas_m3"
+                  min="0"
+                  max="5000"
+                  step="5"
+                  placeholder="0"
+                />
+                <span class="unit-label" aria-hidden="true">m³/mo</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="heating_oil_l">Heating oil</label>
+              <div class="input-unit">
+                <input
+                  type="number"
+                  id="heating_oil_l"
+                  min="0"
+                  max="5000"
+                  step="5"
+                  placeholder="0"
+                />
+                <span class="unit-label" aria-hidden="true">L/mo</span>
+              </div>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" data-onclick="goToStep(0)">← Back</button>
+            <button class="btn btn-primary" data-onclick="goToStep(2)">Next: Food →</button>
+          </div>
+        </div>
       </div>
-    </nav>
 
-    <!-- Error display -->
-    <div class="error-box" id="errorBox" role="alert" aria-live="assertive"></div>
+      <!-- ── Panel 3: Food ── -->
+      <div class="panel" id="panel-food" role="tabpanel" aria-labelledby="tab-food">
+        <div class="card">
+          <h2>🥗 Diet &amp; Food</h2>
+          <p class="card-desc">
+            Choose the option that best describes your diet. Food is one of the highest-impact
+            categories.
+          </p>
+          <fieldset style="border: none; padding: 0">
+            <legend class="sr-only">Select your diet type</legend>
+            <div class="diet-grid">
+              <div class="diet-option">
+                <input type="radio" name="diet" id="diet_meat_heavy" value="high_meat" />
+                <label class="diet-label" for="diet_meat_heavy">
+                  <span class="diet-icon" aria-hidden="true">🥩</span>
+                  <span class="diet-name">Meat-heavy</span>
+                </label>
+              </div>
+              <div class="diet-option">
+                <input type="radio" name="diet" id="diet_omnivore" value="omnivore" checked />
+                <label class="diet-label" for="diet_omnivore">
+                  <span class="diet-icon" aria-hidden="true">🍽️</span>
+                  <span class="diet-name">Omnivore</span>
+                </label>
+              </div>
+              <div class="diet-option">
+                <input type="radio" name="diet" id="diet_pescatarian" value="pescatarian" />
+                <label class="diet-label" for="diet_pescatarian">
+                  <span class="diet-icon" aria-hidden="true">🐟</span>
+                  <span class="diet-name">Pescatarian</span>
+                </label>
+              </div>
+              <div class="diet-option">
+                <input type="radio" name="diet" id="diet_vegetarian" value="vegetarian" />
+                <label class="diet-label" for="diet_vegetarian">
+                  <span class="diet-icon" aria-hidden="true">🥬</span>
+                  <span class="diet-name">Vegetarian</span>
+                </label>
+              </div>
+              <div class="diet-option">
+                <input type="radio" name="diet" id="diet_vegan" value="vegan" />
+                <label class="diet-label" for="diet_vegan">
+                  <span class="diet-icon" aria-hidden="true">🌱</span>
+                  <span class="diet-name">Vegan</span>
+                </label>
+              </div>
+            </div>
+          </fieldset>
+          <div class="btn-row">
+            <button class="btn btn-secondary" data-onclick="goToStep(1)">← Back</button>
+            <button class="btn btn-primary" data-onclick="goToStep(3)">Next: Shopping →</button>
+          </div>
+        </div>
+      </div>
 
-    <!-- ── Panel 1: Transport ── -->
-    <div class="panel active" id="panel-transport" role="tabpanel" aria-labelledby="tab-transport">
-      <div class="card">
-        <h2>🚗 Transport</h2>
-        <p class="card-desc">Enter your typical weekly travel distances. Leave blank for zero.</p>
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="car_petrol">Petrol / gasoline car</label>
-            <div class="input-unit">
-              <input type="number" id="car_petrol" min="0" max="5000" step="1" placeholder="0" aria-describedby="car_petrol_hint" />
-              <span class="unit-label" aria-hidden="true">km/wk</span>
+      <!-- ── Panel 4: Shopping ── -->
+      <div class="panel" id="panel-shopping" role="tabpanel" aria-labelledby="tab-shopping">
+        <div class="card">
+          <h2>🛍️ Shopping &amp; Consumption</h2>
+          <p class="card-desc">
+            Estimates for the past 12 months. Think about what you bought, not what you still own.
+          </p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="clothing_item">Clothing items purchased</label>
+              <input
+                type="number"
+                id="clothing_item"
+                min="0"
+                max="500"
+                step="1"
+                placeholder="0"
+                aria-describedby="clothing_hint"
+              />
+              <span class="input-hint" id="clothing_hint">Per year (avg person buys ~16)</span>
             </div>
-            <span class="input-hint" id="car_petrol_hint">Weekly km driven</span>
-          </div>
-          <div class="form-group">
-            <label for="car_electric">Electric vehicle</label>
-            <div class="input-unit">
-              <input type="number" id="car_electric" min="0" max="5000" step="1" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">km/wk</span>
+            <div class="form-group">
+              <label for="electronics_small">Small electronics (phone, tablet)</label>
+              <input
+                type="number"
+                id="electronics_small"
+                min="0"
+                max="50"
+                step="1"
+                placeholder="0"
+              />
+              <span class="input-hint">Per year</span>
+            </div>
+            <div class="form-group">
+              <label for="electronics_large">Large electronics (laptop, TV)</label>
+              <input
+                type="number"
+                id="electronics_large"
+                min="0"
+                max="20"
+                step="1"
+                placeholder="0"
+              />
+              <span class="input-hint">Per year</span>
+            </div>
+            <div class="form-group">
+              <label for="streaming_hour">Daily video streaming</label>
+              <div class="input-unit">
+                <input
+                  type="number"
+                  id="streaming_hour"
+                  min="0"
+                  max="24"
+                  step="0.5"
+                  placeholder="0"
+                />
+                <span class="unit-label" aria-hidden="true">hrs/day</span>
+              </div>
             </div>
           </div>
-          <div class="form-group">
-            <label for="motorcycle">Motorcycle / scooter</label>
-            <div class="input-unit">
-              <input type="number" id="motorcycle" min="0" max="5000" step="1" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">km/wk</span>
-            </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" data-onclick="goToStep(2)">← Back</button>
+            <button class="btn btn-primary" data-onclick="calculateFootprint()" id="calcBtn">
+              Calculate my footprint 🌍
+            </button>
           </div>
-          <div class="form-group">
-            <label for="bus">Bus</label>
-            <div class="input-unit">
-              <input type="number" id="bus" min="0" max="5000" step="1" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">km/wk</span>
+        </div>
+      </div>
+
+      <!-- ── Panel 5: Results ── -->
+      <div class="panel" id="panel-results" role="tabpanel" aria-labelledby="tab-results">
+        <!-- Score band -->
+        <div id="scoreBand" class="score-band" aria-live="polite">
+          <div class="score-tonnes" id="scoreTonnes" aria-label="Your carbon footprint">—</div>
+          <p class="score-label" id="scoreLabel"></p>
+          <p class="score-sub" id="scoreSub"></p>
+        </div>
+
+        <!-- Comparison -->
+        <div class="card">
+          <h2 class="section-h">How you compare</h2>
+          <div
+            class="compare-bar-wrap"
+            role="img"
+            aria-label="Comparison bar chart of your footprint versus global average and Paris Agreement target"
+          >
+            <div class="compare-row">
+              <span class="compare-row-label">You</span>
+              <div class="bar-track">
+                <div class="bar-fill you" id="barYou" style="width: 0%"></div>
+              </div>
+              <span class="compare-val" id="barYouVal">—</span>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="train">Train / metro</label>
-            <div class="input-unit">
-              <input type="number" id="train" min="0" max="5000" step="1" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">km/wk</span>
+            <div class="compare-row">
+              <span class="compare-row-label">Global avg</span>
+              <div class="bar-track"><div class="bar-fill global" style="width: 63%"></div></div>
+              <span class="compare-val">4.7t</span>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="flight_domestic">Domestic flights (annual)</label>
-            <div class="input-unit">
-              <input type="number" id="flight_domestic" min="0" max="200000" step="100" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">km/yr</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="flight_international">International flights (annual)</label>
-            <div class="input-unit">
-              <input type="number" id="flight_international" min="0" max="500000" step="100" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">km/yr</span>
+            <div class="compare-row">
+              <span class="compare-row-label">Paris target</span>
+              <div class="bar-track"><div class="bar-fill paris" style="width: 27%"></div></div>
+              <span class="compare-val">2.0t</span>
             </div>
           </div>
         </div>
-        <div class="btn-row">
-          <button class="btn btn-primary" data-onclick="goToStep(1)">
-            Next: Home energy →
+
+        <!-- Category breakdown -->
+        <div class="card">
+          <h2 class="section-h">Breakdown by category</h2>
+          <div class="breakdown-grid" id="breakdownGrid" aria-label="Category breakdown"></div>
+        </div>
+
+        <!-- Equivalencies -->
+        <div class="card">
+          <h2 class="section-h">What this means in real terms</h2>
+          <div class="equiv-grid" id="equivGrid"></div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="card">
+          <h2 class="section-h">Your personalised action plan</h2>
+          <p style="font-size: 0.85rem; color: var(--neutral-500); margin-bottom: 1.25rem">
+            Sorted by highest impact. Start here to reduce your footprint fastest.
+          </p>
+          <div id="recsList" aria-label="Personalised recommendations"></div>
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align: center; margin: 2rem 0">
+          <button class="btn btn-secondary" data-onclick="resetCalculator()">
+            Recalculate with different inputs
           </button>
         </div>
       </div>
-    </div>
+    </main>
 
-    <!-- ── Panel 2: Home ── -->
-    <div class="panel" id="panel-home" role="tabpanel" aria-labelledby="tab-home">
-      <div class="card">
-        <h2>🏠 Home Energy</h2>
-        <p class="card-desc">Your typical monthly energy use. Check your utility bills for accuracy.</p>
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="electricity_kwh">Grid electricity</label>
-            <div class="input-unit">
-              <input type="number" id="electricity_kwh" min="0" max="10000" step="10" placeholder="0" aria-describedby="elec_hint" />
-              <span class="unit-label" aria-hidden="true">kWh/mo</span>
-            </div>
-            <span class="input-hint" id="elec_hint">Average household: 250–400 kWh/month</span>
-          </div>
-          <div class="form-group">
-            <label for="solar_kwh">Solar (self-generated)</label>
-            <div class="input-unit">
-              <input type="number" id="solar_kwh" min="0" max="10000" step="10" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">kWh/mo</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="natural_gas_m3">Natural gas</label>
-            <div class="input-unit">
-              <input type="number" id="natural_gas_m3" min="0" max="5000" step="5" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">m³/mo</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="heating_oil_l">Heating oil</label>
-            <div class="input-unit">
-              <input type="number" id="heating_oil_l" min="0" max="5000" step="5" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">L/mo</span>
-            </div>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-secondary" data-onclick="goToStep(0)">← Back</button>
-          <button class="btn btn-primary" data-onclick="goToStep(2)">Next: Food →</button>
-        </div>
-      </div>
-    </div>
+    <footer>
+      <p>
+        Emission factors sourced from <strong>EPA 2023</strong>, <strong>IPCC AR6</strong>, and
+        <strong>IEA 2023</strong>.
+      </p>
+      <p style="margin-top: 4px">
+        Built for <a href="https://hack2skill.com" rel="noopener">Hack2Skill</a> Virtual Prompt Wars
+        · Challenge 3 · Carbon Footprint Awareness Platform
+      </p>
+    </footer>
 
-    <!-- ── Panel 3: Food ── -->
-    <div class="panel" id="panel-food" role="tabpanel" aria-labelledby="tab-food">
-      <div class="card">
-        <h2>🥗 Diet &amp; Food</h2>
-        <p class="card-desc">Choose the option that best describes your diet. Food is one of the highest-impact categories.</p>
-        <fieldset style="border:none;padding:0">
-          <legend class="sr-only">Select your diet type</legend>
-          <div class="diet-grid">
-            <div class="diet-option">
-              <input type="radio" name="diet" id="diet_meat_heavy" value="high_meat" />
-              <label class="diet-label" for="diet_meat_heavy">
-                <span class="diet-icon" aria-hidden="true">🥩</span>
-                <span class="diet-name">Meat-heavy</span>
-              </label>
-            </div>
-            <div class="diet-option">
-              <input type="radio" name="diet" id="diet_omnivore" value="omnivore" checked />
-              <label class="diet-label" for="diet_omnivore">
-                <span class="diet-icon" aria-hidden="true">🍽️</span>
-                <span class="diet-name">Omnivore</span>
-              </label>
-            </div>
-            <div class="diet-option">
-              <input type="radio" name="diet" id="diet_pescatarian" value="pescatarian" />
-              <label class="diet-label" for="diet_pescatarian">
-                <span class="diet-icon" aria-hidden="true">🐟</span>
-                <span class="diet-name">Pescatarian</span>
-              </label>
-            </div>
-            <div class="diet-option">
-              <input type="radio" name="diet" id="diet_vegetarian" value="vegetarian" />
-              <label class="diet-label" for="diet_vegetarian">
-                <span class="diet-icon" aria-hidden="true">🥬</span>
-                <span class="diet-name">Vegetarian</span>
-              </label>
-            </div>
-            <div class="diet-option">
-              <input type="radio" name="diet" id="diet_vegan" value="vegan" />
-              <label class="diet-label" for="diet_vegan">
-                <span class="diet-icon" aria-hidden="true">🌱</span>
-                <span class="diet-name">Vegan</span>
-              </label>
-            </div>
-          </div>
-        </fieldset>
-        <div class="btn-row">
-          <button class="btn btn-secondary" data-onclick="goToStep(1)">← Back</button>
-          <button class="btn btn-primary" data-onclick="goToStep(3)">Next: Shopping →</button>
-        </div>
-      </div>
-    </div>
+    <script>
+      'use strict';
 
-    <!-- ── Panel 4: Shopping ── -->
-    <div class="panel" id="panel-shopping" role="tabpanel" aria-labelledby="tab-shopping">
-      <div class="card">
-        <h2>🛍️ Shopping &amp; Consumption</h2>
-        <p class="card-desc">Estimates for the past 12 months. Think about what you bought, not what you still own.</p>
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="clothing_item">Clothing items purchased</label>
-            <input type="number" id="clothing_item" min="0" max="500" step="1" placeholder="0" aria-describedby="clothing_hint" />
-            <span class="input-hint" id="clothing_hint">Per year (avg person buys ~16)</span>
-          </div>
-          <div class="form-group">
-            <label for="electronics_small">Small electronics (phone, tablet)</label>
-            <input type="number" id="electronics_small" min="0" max="50" step="1" placeholder="0" />
-            <span class="input-hint">Per year</span>
-          </div>
-          <div class="form-group">
-            <label for="electronics_large">Large electronics (laptop, TV)</label>
-            <input type="number" id="electronics_large" min="0" max="20" step="1" placeholder="0" />
-            <span class="input-hint">Per year</span>
-          </div>
-          <div class="form-group">
-            <label for="streaming_hour">Daily video streaming</label>
-            <div class="input-unit">
-              <input type="number" id="streaming_hour" min="0" max="24" step="0.5" placeholder="0" />
-              <span class="unit-label" aria-hidden="true">hrs/day</span>
-            </div>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-secondary" data-onclick="goToStep(2)">← Back</button>
-          <button class="btn btn-primary" data-onclick="calculateFootprint()" id="calcBtn">
-            Calculate my footprint 🌍
-          </button>
-        </div>
-      </div>
-    </div>
+      // ── State ──────────────────────────────────────────────────────────────
+      let currentStep = 0;
+      const STEPS = ['transport', 'home', 'food', 'shopping', 'results'];
+      const MAX_WEEKLY_KM = 100000; // for flight annual → weekly conversion
 
-    <!-- ── Panel 5: Results ── -->
-    <div class="panel" id="panel-results" role="tabpanel" aria-labelledby="tab-results">
-
-      <!-- Score band -->
-      <div id="scoreBand" class="score-band" aria-live="polite">
-        <div class="score-tonnes" id="scoreTonnes" aria-label="Your carbon footprint">—</div>
-        <p class="score-label" id="scoreLabel"></p>
-        <p class="score-sub" id="scoreSub"></p>
-      </div>
-
-      <!-- Comparison -->
-      <div class="card">
-        <h2 class="section-h">How you compare</h2>
-        <div class="compare-bar-wrap" role="img" aria-label="Comparison bar chart of your footprint versus global average and Paris Agreement target">
-          <div class="compare-row">
-            <span class="compare-row-label">You</span>
-            <div class="bar-track"><div class="bar-fill you" id="barYou" style="width:0%"></div></div>
-            <span class="compare-val" id="barYouVal">—</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-row-label">Global avg</span>
-            <div class="bar-track"><div class="bar-fill global" style="width:63%"></div></div>
-            <span class="compare-val">4.7t</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-row-label">Paris target</span>
-            <div class="bar-track"><div class="bar-fill paris" style="width:27%"></div></div>
-            <span class="compare-val">2.0t</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Category breakdown -->
-      <div class="card">
-        <h2 class="section-h">Breakdown by category</h2>
-        <div class="breakdown-grid" id="breakdownGrid" aria-label="Category breakdown">
-        </div>
-      </div>
-
-      <!-- Equivalencies -->
-      <div class="card">
-        <h2 class="section-h">What this means in real terms</h2>
-        <div class="equiv-grid" id="equivGrid"></div>
-      </div>
-
-      <!-- Recommendations -->
-      <div class="card">
-        <h2 class="section-h">Your personalised action plan</h2>
-        <p style="font-size:0.85rem;color:var(--neutral-500);margin-bottom:1.25rem">Sorted by highest impact. Start here to reduce your footprint fastest.</p>
-        <div id="recsList" aria-label="Personalised recommendations"></div>
-      </div>
-
-      <!-- CTA -->
-      <div style="text-align:center;margin:2rem 0;">
-        <button class="btn btn-secondary" data-onclick="resetCalculator()">Recalculate with different inputs</button>
-      </div>
-
-    </div>
-  </main>
-
-  <footer>
-    <p>Emission factors sourced from <strong>EPA 2023</strong>, <strong>IPCC AR6</strong>, and <strong>IEA 2023</strong>.</p>
-    <p style="margin-top:4px">Built for <a href="https://hack2skill.com" rel="noopener">Hack2Skill</a> Virtual Prompt Wars · Challenge 3 · Carbon Footprint Awareness Platform</p>
-  </footer>
-
-  <script>
-    'use strict';
-
-    // ── State ──────────────────────────────────────────────────────────────
-    let currentStep = 0;
-    const STEPS = ['transport', 'home', 'food', 'shopping', 'results'];
-    const MAX_WEEKLY_KM = 100000; // for flight annual → weekly conversion
-
-    // ── CSP-safe delegated click handling ──────────────────────────────────
-    // Inline onclick="..." attributes are blocked by our Content-Security-Policy
-    // (script-src has no 'unsafe-inline'). Buttons instead carry a
-    // data-onclick="functionName(args)" attribute, parsed here against an
-    // explicit whitelist of known functions — never eval()'d or passed to
-    // the Function constructor on raw attribute text.
-    const ACTION_HANDLERS = {
-      goToStep: (arg) => goToStep(Number(arg)),
-      calculateFootprint: () => calculateFootprint(),
-      resetCalculator: () => resetCalculator(),
-    };
-
-    document.addEventListener('click', (e) => {
-      const el = e.target.closest('[data-onclick]');
-      if (!el) return;
-      const raw = el.getAttribute('data-onclick'); // e.g. "goToStep(1)"
-      const match = raw.match(/^([a-zA-Z_]+)\((.*)\)$/);
-      if (!match) return;
-      const [, fnName, argStr] = match;
-      const handler = ACTION_HANDLERS[fnName];
-      if (!handler) return;
-      const arg = argStr.trim().replace(/^['"]|['"]$/g, '');
-      handler(arg);
-    });
-
-    // ── Navigation ─────────────────────────────────────────────────────────
-    function goToStep(n) {
-      currentStep = n;
-      STEPS.forEach((name, i) => {
-        const panel = document.getElementById('panel-' + name);
-        const tab = document.getElementById('tab-' + name);
-        panel.classList.toggle('active', i === n);
-        tab.setAttribute('aria-selected', i === n ? 'true' : 'false');
-        if (i < n) tab.classList.add('completed');
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ── Gather form data ───────────────────────────────────────────────────
-    function collectFormData() {
-      const num = (id) => {
-        const v = parseFloat(document.getElementById(id)?.value);
-        return isFinite(v) && v > 0 ? v : 0;
+      // ── CSP-safe delegated click handling ──────────────────────────────────
+      // Inline onclick="..." attributes are blocked by our Content-Security-Policy
+      // (script-src has no 'unsafe-inline'). Buttons instead carry a
+      // data-onclick="functionName(args)" attribute, parsed here against an
+      // explicit whitelist of known functions — never eval()'d or passed to
+      // the Function constructor on raw attribute text.
+      const ACTION_HANDLERS = {
+        goToStep: (arg) => goToStep(Number(arg)),
+        calculateFootprint: () => calculateFootprint(),
+        resetCalculator: () => resetCalculator(),
       };
 
-      const transport = {};
-      const transportFields = ['car_petrol','car_electric','motorcycle','bus','train'];
-      transportFields.forEach(f => { const v = num(f); if (v > 0) transport[f] = v; });
-
-      // Flights are entered as annual km. The backend annualises the whole
-      // `transport` category by multiplying weekly figures by 52, so we
-      // convert annual flight km to a weekly-equivalent figure here to
-      // keep flights on the same basis as every other transport mode.
-      const fd = num('flight_domestic');
-      const fi = num('flight_international');
-      if (fd > 0) transport.flight_domestic = fd / 52;
-      if (fi > 0) transport.flight_international = fi / 52;
-
-      const home = {};
-      ['electricity_kwh','solar_kwh','natural_gas_m3','heating_oil_l'].forEach(f => {
-        const v = num(f);
-        if (v > 0) home[f] = v * 4; // monthly → weekly (×4 weeks)
+      document.addEventListener('click', (e) => {
+        const el = e.target.closest('[data-onclick]');
+        if (!el) return;
+        const raw = el.getAttribute('data-onclick'); // e.g. "goToStep(1)"
+        const match = raw.match(/^([a-zA-Z_]+)\((.*)\)$/);
+        if (!match) return;
+        const [, fnName, argStr] = match;
+        const handler = ACTION_HANDLERS[fnName];
+        if (!handler) return;
+        const arg = argStr.trim().replace(/^['"]|['"]$/g, '');
+        handler(arg);
       });
 
-      const dietEl = document.querySelector('input[name="diet"]:checked');
-      const diet = dietEl ? dietEl.value : 'omnivore';
+      // ── Navigation ─────────────────────────────────────────────────────────
+      function goToStep(n) {
+        currentStep = n;
+        STEPS.forEach((name, i) => {
+          const panel = document.getElementById('panel-' + name);
+          const tab = document.getElementById('tab-' + name);
+          panel.classList.toggle('active', i === n);
+          tab.setAttribute('aria-selected', i === n ? 'true' : 'false');
+          if (i < n) tab.classList.add('completed');
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
-      const shopping = {};
-      const streamingHrs = num('streaming_hour');
-      if (streamingHrs > 0) shopping.streaming_hour = streamingHrs * 7;
-      ['clothing_item','electronics_small','electronics_large'].forEach(f => {
-        const v = num(f);
-        if (v > 0) shopping[f] = v;
-      });
+      // ── Gather form data ───────────────────────────────────────────────────
+      function collectFormData() {
+        const num = (id) => {
+          const v = parseFloat(document.getElementById(id)?.value);
+          return isFinite(v) && v > 0 ? v : 0;
+        };
 
-      return { transport, home, food: { diet, days: 7 }, shopping };
-    }
-
-    // ── Calculate ──────────────────────────────────────────────────────────
-    async function calculateFootprint() {
-      const btn = document.getElementById('calcBtn');
-      const overlay = document.getElementById('loadingOverlay');
-      const errorBox = document.getElementById('errorBox');
-
-      btn.disabled = true;
-      overlay.classList.add('visible');
-      errorBox.classList.remove('visible');
-
-      try {
-        const body = collectFormData();
-
-        const resp = await fetch('/api/calculate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+        const transport = {};
+        const transportFields = ['car_petrol', 'car_electric', 'motorcycle', 'bus', 'train'];
+        transportFields.forEach((f) => {
+          const v = num(f);
+          if (v > 0) transport[f] = v;
         });
 
-        const json = await resp.json();
+        // Flights are entered as annual km. The backend annualises the whole
+        // `transport` category by multiplying weekly figures by 52, so we
+        // convert annual flight km to a weekly-equivalent figure here to
+        // keep flights on the same basis as every other transport mode.
+        const fd = num('flight_domestic');
+        const fi = num('flight_international');
+        if (fd > 0) transport.flight_domestic = fd / 52;
+        if (fi > 0) transport.flight_international = fi / 52;
 
-        if (!resp.ok || !json.success) {
-          throw new Error(json.errors?.join(', ') || json.error || 'Calculation failed');
-        }
+        const home = {};
+        ['electricity_kwh', 'solar_kwh', 'natural_gas_m3', 'heating_oil_l'].forEach((f) => {
+          const v = num(f);
+          if (v > 0) home[f] = v * 4; // monthly → weekly (×4 weeks)
+        });
 
-        renderResults(json.data);
-        goToStep(4);
+        const dietEl = document.querySelector('input[name="diet"]:checked');
+        const diet = dietEl ? dietEl.value : 'omnivore';
 
-      } catch (err) {
-        errorBox.textContent = '⚠️ ' + (err.message || 'Something went wrong. Please try again.');
-        errorBox.classList.add('visible');
-        errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } finally {
-        btn.disabled = false;
-        overlay.classList.remove('visible');
+        const shopping = {};
+        const streamingHrs = num('streaming_hour');
+        if (streamingHrs > 0) shopping.streaming_hour = streamingHrs * 7;
+        ['clothing_item', 'electronics_small', 'electronics_large'].forEach((f) => {
+          const v = num(f);
+          if (v > 0) shopping[f] = v;
+        });
+
+        return { transport, home, food: { diet, days: 7 }, shopping };
       }
-    }
 
-    // ── Render results ─────────────────────────────────────────────────────
-    function renderResults({ footprint, recommendations, equivalencies }) {
-      const tonnes = footprint.total_tonnes;
+      // ── Calculate ──────────────────────────────────────────────────────────
+      async function calculateFootprint() {
+        const btn = document.getElementById('calcBtn');
+        const overlay = document.getElementById('loadingOverlay');
+        const errorBox = document.getElementById('errorBox');
 
-      // Score band
-      const band = document.getElementById('scoreBand');
-      const level = tonnes < 2 ? 'low' : tonnes < 6 ? 'medium' : 'high';
-      band.className = 'score-band ' + level;
-      document.getElementById('scoreTonnes').textContent = tonnes.toFixed(2) + 't';
-      document.getElementById('scoreTonnes').setAttribute('aria-label', tonnes.toFixed(2) + ' tonnes CO2 equivalent per year');
+        btn.disabled = true;
+        overlay.classList.add('visible');
+        errorBox.classList.remove('visible');
 
-      const labels = {
-        low: ['Below Paris target 🎉', 'You\'re already below the 2t/year goal. Keep it up!'],
-        medium: ['Above global average', `You emit ${footprint.comparison.vs_global_avg}% of the global average. There\'s room to improve.`],
-        high: ['High footprint ⚡', `Your footprint is ${(tonnes / 2).toFixed(0)}× the Paris Agreement target. The actions below can help.`]
-      };
-      document.getElementById('scoreLabel').textContent = labels[level][0];
-      document.getElementById('scoreSub').textContent = labels[level][1];
+        try {
+          const body = collectFormData();
 
-      // Comparison bars (max reference 8t)
-      const ref = 7.5;
-      const pct = Math.min((tonnes / ref) * 100, 100).toFixed(1);
-      document.getElementById('barYou').style.width = pct + '%';
-      document.getElementById('barYouVal').textContent = tonnes.toFixed(1) + 't';
+          const resp = await fetch('/api/calculate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          });
 
-      // Category breakdown
-      const cats = footprint.categories;
-      const catMeta = {
-        transport: { icon: '🚗', label: 'Transport' },
-        home:      { icon: '🏠', label: 'Home energy' },
-        food:      { icon: '🥗', label: 'Food' },
-        shopping:  { icon: '🛍️', label: 'Shopping' }
-      };
-      const grid = document.getElementById('breakdownGrid');
-      grid.innerHTML = '';
-      Object.entries(cats).forEach(([key, cat]) => {
-        const pctCat = footprint.total_kg > 0 ? (cat.kg / footprint.total_kg * 100).toFixed(0) : 0;
-        const meta = catMeta[key];
-        grid.innerHTML += `
+          const json = await resp.json();
+
+          if (!resp.ok || !json.success) {
+            throw new Error(json.errors?.join(', ') || json.error || 'Calculation failed');
+          }
+
+          renderResults(json.data);
+          goToStep(4);
+        } catch (err) {
+          errorBox.textContent = '⚠️ ' + (err.message || 'Something went wrong. Please try again.');
+          errorBox.classList.add('visible');
+          errorBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } finally {
+          btn.disabled = false;
+          overlay.classList.remove('visible');
+        }
+      }
+
+      // ── Render results ─────────────────────────────────────────────────────
+      function renderResults({ footprint, recommendations, equivalencies }) {
+        const tonnes = footprint.total_tonnes;
+
+        // Score band
+        const band = document.getElementById('scoreBand');
+        const level = tonnes < 2 ? 'low' : tonnes < 6 ? 'medium' : 'high';
+        band.className = 'score-band ' + level;
+        document.getElementById('scoreTonnes').textContent = tonnes.toFixed(2) + 't';
+        document
+          .getElementById('scoreTonnes')
+          .setAttribute('aria-label', tonnes.toFixed(2) + ' tonnes CO2 equivalent per year');
+
+        const labels = {
+          low: ['Below Paris target 🎉', "You're already below the 2t/year goal. Keep it up!"],
+          medium: [
+            'Above global average',
+            `You emit ${footprint.comparison.vs_global_avg}% of the global average. There\'s room to improve.`,
+          ],
+          high: [
+            'High footprint ⚡',
+            `Your footprint is ${(tonnes / 2).toFixed(0)}× the Paris Agreement target. The actions below can help.`,
+          ],
+        };
+        document.getElementById('scoreLabel').textContent = labels[level][0];
+        document.getElementById('scoreSub').textContent = labels[level][1];
+
+        // Comparison bars (max reference 8t)
+        const ref = 7.5;
+        const pct = Math.min((tonnes / ref) * 100, 100).toFixed(1);
+        document.getElementById('barYou').style.width = pct + '%';
+        document.getElementById('barYouVal').textContent = tonnes.toFixed(1) + 't';
+
+        // Category breakdown
+        const cats = footprint.categories;
+        const catMeta = {
+          transport: { icon: '🚗', label: 'Transport' },
+          home: { icon: '🏠', label: 'Home energy' },
+          food: { icon: '🥗', label: 'Food' },
+          shopping: { icon: '🛍️', label: 'Shopping' },
+        };
+        const grid = document.getElementById('breakdownGrid');
+        grid.innerHTML = '';
+        Object.entries(cats).forEach(([key, cat]) => {
+          const pctCat =
+            footprint.total_kg > 0 ? ((cat.kg / footprint.total_kg) * 100).toFixed(0) : 0;
+          const meta = catMeta[key];
+          grid.innerHTML += `
           <div class="breakdown-card">
             <div class="breakdown-card-top">
               <div class="breakdown-icon ${key}" aria-hidden="true">${meta.icon}</div>
@@ -960,36 +1481,38 @@
               <div class="mini-bar-fill ${key}" style="width:${pctCat}%"></div>
             </div>
           </div>`;
-      });
+        });
 
-      // Equivalencies
-      const equivDefs = [
-        { key: 'trees_to_offset_annual', icon: '🌳', label: 'trees to offset annually' },
-        { key: 'km_driving_equivalent', icon: '🚗', label: 'km of driving' },
-        { key: 'smartphone_charges', icon: '📱', label: 'phone charges' },
-        { key: 'beef_burgers_equivalent', icon: '🍔', label: 'beef burgers' },
-        { key: 'hours_of_streaming', icon: '📺', label: 'hours streaming' }
-      ];
-      const equivGrid = document.getElementById('equivGrid');
-      equivGrid.innerHTML = '';
-      equivDefs.forEach(({ key, icon, label }) => {
-        const val = equivalencies[key];
-        equivGrid.innerHTML += `
+        // Equivalencies
+        const equivDefs = [
+          { key: 'trees_to_offset_annual', icon: '🌳', label: 'trees to offset annually' },
+          { key: 'km_driving_equivalent', icon: '🚗', label: 'km of driving' },
+          { key: 'smartphone_charges', icon: '📱', label: 'phone charges' },
+          { key: 'beef_burgers_equivalent', icon: '🍔', label: 'beef burgers' },
+          { key: 'hours_of_streaming', icon: '📺', label: 'hours streaming' },
+        ];
+        const equivGrid = document.getElementById('equivGrid');
+        equivGrid.innerHTML = '';
+        equivDefs.forEach(({ key, icon, label }) => {
+          const val = equivalencies[key];
+          equivGrid.innerHTML += `
           <div class="equiv-card">
             <div class="equiv-icon" aria-hidden="true">${icon}</div>
             <div class="equiv-num">${val.toLocaleString()}</div>
             <div class="equiv-desc">${label}</div>
           </div>`;
-      });
+        });
 
-      // Recommendations
-      const diffIcons = { easy: '⚡', medium: '🔧', hard: '🏗️' };
-      const recsList = document.getElementById('recsList');
-      recsList.innerHTML = '';
-      const catIcons = { transport: '🚗', home: '🏠', food: '🥗', shopping: '🛍️', general: '✅' };
-      recommendations.forEach(rec => {
-        const savingTag = rec.cost_saving ? '<span class="tag tag-saving">💰 saves money</span>' : '';
-        recsList.innerHTML += `
+        // Recommendations
+        const diffIcons = { easy: '⚡', medium: '🔧', hard: '🏗️' };
+        const recsList = document.getElementById('recsList');
+        recsList.innerHTML = '';
+        const catIcons = { transport: '🚗', home: '🏠', food: '🥗', shopping: '🛍️', general: '✅' };
+        recommendations.forEach((rec) => {
+          const savingTag = rec.cost_saving
+            ? '<span class="tag tag-saving">💰 saves money</span>'
+            : '';
+          recsList.innerHTML += `
           <div class="rec-item">
             <div class="rec-badge" aria-hidden="true">${catIcons[rec.category] || '✅'}</div>
             <div class="rec-content">
@@ -1001,21 +1524,21 @@
               </div>
             </div>
           </div>`;
-      });
-    }
+        });
+      }
 
-    function escapeHtml(str) {
-      const d = document.createElement('div');
-      d.textContent = str;
-      return d.innerHTML;
-    }
+      function escapeHtml(str) {
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+      }
 
-    function resetCalculator() {
-      document.querySelectorAll('input[type="number"]').forEach(el => el.value = '');
-      document.getElementById('diet_omnivore').checked = true;
-      document.getElementById('errorBox').classList.remove('visible');
-      goToStep(0);
-    }
-  </script>
-</body>
+      function resetCalculator() {
+        document.querySelectorAll('input[type="number"]').forEach((el) => (el.value = ''));
+        document.getElementById('diet_omnivore').checked = true;
+        document.getElementById('errorBox').classList.remove('visible');
+        goToStep(0);
+      }
+    </script>
+  </body>
 </html>

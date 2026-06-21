@@ -20,20 +20,20 @@
 // ---------------------------------------------------------------------------
 
 const TRANSPORT_FACTORS = {
-  car_petrol: 0.192,           // per km, average petrol car (EPA 2023)
-  car_electric: 0.053,         // per km, EV on average grid mix (IEA 2023)
-  motorcycle: 0.103,           // per km
-  bus: 0.089,                  // per km, per passenger
-  train: 0.041,                // per km, per passenger
-  flight_domestic: 0.255,      // per km, short-haul incl. radiative forcing index (IPCC)
+  car_petrol: 0.192, // per km, average petrol car (EPA 2023)
+  car_electric: 0.053, // per km, EV on average grid mix (IEA 2023)
+  motorcycle: 0.103, // per km
+  bus: 0.089, // per km, per passenger
+  train: 0.041, // per km, per passenger
+  flight_domestic: 0.255, // per km, short-haul incl. radiative forcing index (IPCC)
   flight_international: 0.195, // per km, long-haul incl. radiative forcing index (IPCC)
 };
 
 const HOME_FACTORS = {
-  electricity_kwh: 0.233,      // per kWh, grid average (IEA 2023)
-  solar_kwh: 0.041,            // per kWh, lifecycle emissions of solar generation
-  natural_gas_m3: 2.03,        // per cubic metre
-  heating_oil_l: 2.96,         // per litre
+  electricity_kwh: 0.233, // per kWh, grid average (IEA 2023)
+  solar_kwh: 0.041, // per kWh, lifecycle emissions of solar generation
+  natural_gas_m3: 2.03, // per cubic metre
+  heating_oil_l: 2.96, // per litre
 };
 
 // Diet presets: kg CO2e per day, based on IPCC AR6 dietary footprint ranges
@@ -58,10 +58,10 @@ const FOOD_ITEM_FACTORS = {
 };
 
 const SHOPPING_FACTORS = {
-  clothing_item: 8.4,          // per item, average garment lifecycle
-  electronics_small: 45,       // per item, e.g. phone/accessory
-  electronics_large: 320,      // per item, e.g. laptop/TV
-  streaming_hour: 0.06,        // per hour, HD video streaming
+  clothing_item: 8.4, // per item, average garment lifecycle
+  electronics_small: 45, // per item, e.g. phone/accessory
+  electronics_large: 320, // per item, e.g. laptop/TV
+  streaming_hour: 0.06, // per hour, HD video streaming
 };
 
 const GLOBAL_AVG_ANNUAL_TONNES = 4.7;
@@ -70,10 +70,10 @@ const WEEKS_PER_YEAR = 52;
 
 // Recommendation-engine assumption constants (named so the reasoning behind
 // each estimate is explicit rather than a bare multiplier in the logic below).
-const SOLAR_OFFSET_FEASIBILITY = 0.3;        // assume 30% of grid usage can realistically shift to renewables
-const FLIGHT_REDUCTION_FACTOR = 0.5;         // assume half of flights can be avoided or combined
-const ELECTRONICS_LIFESPAN_EXTENSION = 0.5;  // assume repair/extension avoids ~50% of replacement footprint
-const MEAT_SWAP_DAYS_PER_WEEK = 2;           // assume 2 days/week swapped to a lower-impact diet
+const SOLAR_OFFSET_FEASIBILITY = 0.3; // assume 30% of grid usage can realistically shift to renewables
+const FLIGHT_REDUCTION_FACTOR = 0.5; // assume half of flights can be avoided or combined
+const ELECTRONICS_LIFESPAN_EXTENSION = 0.5; // assume repair/extension avoids ~50% of replacement footprint
+const MEAT_SWAP_DAYS_PER_WEEK = 2; // assume 2 days/week swapped to a lower-impact diet
 
 // ---------------------------------------------------------------------------
 // Category calculators
@@ -92,7 +92,9 @@ function calculateCategory(input = {}, factors) {
   let total = 0;
   for (const [key, value] of Object.entries(input)) {
     const factor = factors[key];
-    if (factor === undefined) continue;
+    if (factor === undefined) {
+      continue;
+    }
     const kg = factor * value;
     breakdown[key] = round2(kg);
     total += kg;
@@ -148,6 +150,10 @@ function calculateShopping(shopping = {}) {
  * @param {object} input - { transport, home, food, shopping } (all weekly except food.days)
  */
 function calculateTotalFootprint(input = {}) {
+  if (typeof input !== 'object' || input === null || Array.isArray(input)) {
+    throw new TypeError('calculateTotalFootprint: input must be a plain object');
+  }
+
   const transport = calculateTransport(input.transport);
   const home = calculateHome(input.home);
   const food = calculateFood(input.food);
@@ -158,9 +164,8 @@ function calculateTotalFootprint(input = {}) {
   const transportAnnual = transport.total * WEEKS_PER_YEAR;
   const homeAnnual = home.total * WEEKS_PER_YEAR;
   const shoppingAnnual = shopping.total * WEEKS_PER_YEAR;
-  const foodAnnual = food.breakdown.days > 0
-    ? (food.total / food.breakdown.days) * 365
-    : food.total * 365 / 7;
+  const foodAnnual =
+    food.breakdown.days > 0 ? (food.total / food.breakdown.days) * 365 : (food.total * 365) / 7;
 
   const total_kg = round2(transportAnnual + homeAnnual + foodAnnual + shoppingAnnual);
   const total_tonnes = round4(total_kg / 1000);
@@ -192,10 +197,13 @@ function calculateTotalFootprint(input = {}) {
 /**
  * Generates personalised, impact-sorted recommendations based on the
  * categories that contribute most to the user's footprint.
+ * @param {object} input - sanitised calculation input
+ * @param {object} _footprint - calculated footprint result (reserved for
+ *   future category-weighted recommendation logic; not currently read)
+ * @returns {object[]} recommendations sorted by impact_kg_per_year descending
  */
-function generateRecommendations(input = {}, footprint) {
+function generateRecommendations(input = {}, _footprint) {
   const recs = [];
-  const { categories } = footprint;
 
   if (input.transport && input.transport.car_petrol > 0) {
     const weeklyKm = input.transport.car_petrol;
@@ -231,7 +239,10 @@ function generateRecommendations(input = {}, footprint) {
   if (input.home && input.home.electricity_kwh > 0 && !(input.home.solar_kwh > 0)) {
     const weeklyKwh = input.home.electricity_kwh;
     const saving = round2(
-      weeklyKwh * WEEKS_PER_YEAR * (HOME_FACTORS.electricity_kwh - HOME_FACTORS.solar_kwh) * SOLAR_OFFSET_FEASIBILITY
+      weeklyKwh *
+        WEEKS_PER_YEAR *
+        (HOME_FACTORS.electricity_kwh - HOME_FACTORS.solar_kwh) *
+        SOLAR_OFFSET_FEASIBILITY
     );
     recs.push({
       category: 'home',
@@ -242,7 +253,10 @@ function generateRecommendations(input = {}, footprint) {
     });
   }
 
-  if (input.transport && (input.transport.flight_domestic > 0 || input.transport.flight_international > 0)) {
+  if (
+    input.transport &&
+    (input.transport.flight_domestic > 0 || input.transport.flight_international > 0)
+  ) {
     recs.push({
       category: 'transport',
       action: 'Combine trips or choose rail alternatives for short-haul journeys when possible',
@@ -256,7 +270,10 @@ function generateRecommendations(input = {}, footprint) {
     });
   }
 
-  if (input.shopping && (input.shopping.electronics_large > 0 || input.shopping.electronics_small > 0)) {
+  if (
+    input.shopping &&
+    (input.shopping.electronics_large > 0 || input.shopping.electronics_small > 0)
+  ) {
     recs.push({
       category: 'shopping',
       action: 'Extend device lifespan by repairing instead of replacing electronics',
@@ -294,7 +311,7 @@ function generateRecommendations(input = {}, footprint) {
 const TREE_ABSORPTION_KG_PER_YEAR = 21; // average mature tree, kg CO2/year
 const CAR_KM_FACTOR = TRANSPORT_FACTORS.car_petrol;
 const PHONE_CHARGE_KG = 0.0084; // kg CO2 per full smartphone charge
-const BEEF_BURGER_KG = 3.0;     // kg CO2e per average beef burger (patty)
+const BEEF_BURGER_KG = 3.0; // kg CO2e per average beef burger (patty)
 const STREAMING_HOUR_KG = SHOPPING_FACTORS.streaming_hour; // kg CO2e per hour HD streaming
 
 /**
